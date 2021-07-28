@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package services;
+option go_package =".;services";
+import "common/base.proto";
+import "payment.proto";
+
+//微信支付
+service WxService {
+    //小程序支付
+    rpc MiniPay (PaymentRequest) returns (WxResponse) {}
+    //H5支付
+    rpc H5Pay (PaymentRequest) returns (WxResponse) {}
+    //APP支付
+    rpc AppPay (PaymentRequest) returns (WxResponse) {}
+    //提交付款码支付
+    rpc MicroPay (PaymentRequest) returns (WxResponse) {}
+}
+
+
+message WxResponse {
+    map<string,string> params=2;
+    common.Error error = 4;
+    common.Info info =5;
+}

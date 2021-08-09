@@ -38,7 +38,7 @@ message File {
     float size	 =14;
     int32 width	 =15;
     int32 height =16;
-    int32 length	 =17;
+    int64 length	 =17;
     int32 pixel =18;
     int64 cover_id =19;
     string cover_url =20;

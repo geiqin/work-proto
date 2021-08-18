@@ -47,8 +47,10 @@ type AuthorizeService interface {
 	Register(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error)
 	//账号登录
 	Login(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*common.TokenResponse, error)
-	//短信登录
+	//手机短信登录
 	SmsLogin(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*common.TokenResponse, error)
+	//手机一键登录
+	MobileLogin(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*common.TokenResponse, error)
 	//获得当前客户
 	Info(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*CustomerResponse, error)
 	//安全退出
@@ -97,6 +99,16 @@ func (c *authorizeService) SmsLogin(ctx context.Context, in *AuthorizeRequest, o
 	return out, nil
 }
 
+func (c *authorizeService) MobileLogin(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*common.TokenResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthorizeService.MobileLogin", in)
+	out := new(common.TokenResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authorizeService) Info(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*CustomerResponse, error) {
 	req := c.c.NewRequest(c.name, "AuthorizeService.Info", in)
 	out := new(CustomerResponse)
@@ -124,8 +136,10 @@ type AuthorizeServiceHandler interface {
 	Register(context.Context, *Customer, *CustomerResponse) error
 	//账号登录
 	Login(context.Context, *AuthorizeRequest, *common.TokenResponse) error
-	//短信登录
+	//手机短信登录
 	SmsLogin(context.Context, *AuthorizeRequest, *common.TokenResponse) error
+	//手机一键登录
+	MobileLogin(context.Context, *AuthorizeRequest, *common.TokenResponse) error
 	//获得当前客户
 	Info(context.Context, *common.Empty, *CustomerResponse) error
 	//安全退出
@@ -137,6 +151,7 @@ func RegisterAuthorizeServiceHandler(s server.Server, hdlr AuthorizeServiceHandl
 		Register(ctx context.Context, in *Customer, out *CustomerResponse) error
 		Login(ctx context.Context, in *AuthorizeRequest, out *common.TokenResponse) error
 		SmsLogin(ctx context.Context, in *AuthorizeRequest, out *common.TokenResponse) error
+		MobileLogin(ctx context.Context, in *AuthorizeRequest, out *common.TokenResponse) error
 		Info(ctx context.Context, in *common.Empty, out *CustomerResponse) error
 		Logout(ctx context.Context, in *common.Empty, out *AuthorizeResponse) error
 	}
@@ -161,6 +176,10 @@ func (h *authorizeServiceHandler) Login(ctx context.Context, in *AuthorizeReques
 
 func (h *authorizeServiceHandler) SmsLogin(ctx context.Context, in *AuthorizeRequest, out *common.TokenResponse) error {
 	return h.AuthorizeServiceHandler.SmsLogin(ctx, in, out)
+}
+
+func (h *authorizeServiceHandler) MobileLogin(ctx context.Context, in *AuthorizeRequest, out *common.TokenResponse) error {
+	return h.AuthorizeServiceHandler.MobileLogin(ctx, in, out)
 }
 
 func (h *authorizeServiceHandler) Info(ctx context.Context, in *common.Empty, out *CustomerResponse) error {

@@ -46,7 +46,7 @@ message Charge{
     string client_ip = 26;
     string memo = 27;
     string metadata = 28;
-    string status = 29;
+    int32 status = 29;
     string paid_at = 30;
     string expired_at = 31;
     string created_at = 32;

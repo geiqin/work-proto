@@ -71,7 +71,7 @@ message Customer {
     string birthday =24;
     string contact_tel= 25;
     string memo =26;
-    string source =27;
+    int32 source =27;
     int32 status =28;
     string created_at =29;
     string updated_at =30;
@@ -98,7 +98,7 @@ message CustomerRequest {
     int32 level_id =10;
     int32 card_id =11;
     int32 tag_id =12;
-    string source =13;
+    int32 source =13;
     int64 area_id =14;
     string status =15;
     string keywords =16;

@@ -9,8 +9,10 @@ service AuthorizeService {
     rpc Register (Customer) returns (CustomerResponse) {}
     //账号登录
     rpc Login (AuthorizeRequest) returns (common.TokenResponse) {}
-    //短信登录
+    //手机短信登录
     rpc SmsLogin (AuthorizeRequest) returns (common.TokenResponse) {}
+    //手机一键登录
+    rpc MobileLogin (AuthorizeRequest) returns (common.TokenResponse) {}
     //获得当前客户
     rpc Info (common.Empty) returns (CustomerResponse) {}
     //安全退出

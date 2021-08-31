@@ -33,8 +33,8 @@ message OrderDetail {
     bool is_virtual = 26;
     bool is_right = 27;
     bool is_presale = 28;
-    string ship_status = 29;
-    string refund_status = 30;
+    int32 ship_status = 29;
+    int32 refund_status = 30;
     int64  present_id = 31;
     string sku_spec_desc = 32;
     string created_at  = 33;

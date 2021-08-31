@@ -5,7 +5,7 @@ package services
 
 import (
 	fmt "fmt"
-	common "github.com/geiqin/micro-kit/protobuf/common"
+	_ "github.com/geiqin/micro-kit/protobuf/common"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
 )
@@ -43,7 +43,7 @@ func NewMyFanServiceEndpoints() []*api.Endpoint {
 // Client API for MyFanService service
 
 type MyFanService interface {
-	Info(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*FanResponse, error)
+	Info(ctx context.Context, in *FanRequest, opts ...client.CallOption) (*FanResponse, error)
 }
 
 type myFanService struct {
@@ -58,7 +58,7 @@ func NewMyFanService(name string, c client.Client) MyFanService {
 	}
 }
 
-func (c *myFanService) Info(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*FanResponse, error) {
+func (c *myFanService) Info(ctx context.Context, in *FanRequest, opts ...client.CallOption) (*FanResponse, error) {
 	req := c.c.NewRequest(c.name, "MyFanService.Info", in)
 	out := new(FanResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -71,12 +71,12 @@ func (c *myFanService) Info(ctx context.Context, in *common.Empty, opts ...clien
 // Server API for MyFanService service
 
 type MyFanServiceHandler interface {
-	Info(context.Context, *common.Empty, *FanResponse) error
+	Info(context.Context, *FanRequest, *FanResponse) error
 }
 
 func RegisterMyFanServiceHandler(s server.Server, hdlr MyFanServiceHandler, opts ...server.HandlerOption) error {
 	type myFanService interface {
-		Info(ctx context.Context, in *common.Empty, out *FanResponse) error
+		Info(ctx context.Context, in *FanRequest, out *FanResponse) error
 	}
 	type MyFanService struct {
 		myFanService
@@ -89,7 +89,7 @@ type myFanServiceHandler struct {
 	MyFanServiceHandler
 }
 
-func (h *myFanServiceHandler) Info(ctx context.Context, in *common.Empty, out *FanResponse) error {
+func (h *myFanServiceHandler) Info(ctx context.Context, in *FanRequest, out *FanResponse) error {
 	return h.MyFanServiceHandler.Info(ctx, in, out)
 }
 
@@ -105,7 +105,7 @@ type FanService interface {
 	Update(ctx context.Context, in *Fan, opts ...client.CallOption) (*FanResponse, error)
 	Delete(ctx context.Context, in *Fan, opts ...client.CallOption) (*FanResponse, error)
 	Get(ctx context.Context, in *Fan, opts ...client.CallOption) (*FanResponse, error)
-	Search(ctx context.Context, in *FanWhere, opts ...client.CallOption) (*FanResponse, error)
+	Search(ctx context.Context, in *FanRequest, opts ...client.CallOption) (*FanResponse, error)
 }
 
 type fanService struct {
@@ -150,7 +150,7 @@ func (c *fanService) Get(ctx context.Context, in *Fan, opts ...client.CallOption
 	return out, nil
 }
 
-func (c *fanService) Search(ctx context.Context, in *FanWhere, opts ...client.CallOption) (*FanResponse, error) {
+func (c *fanService) Search(ctx context.Context, in *FanRequest, opts ...client.CallOption) (*FanResponse, error) {
 	req := c.c.NewRequest(c.name, "FanService.Search", in)
 	out := new(FanResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -166,7 +166,7 @@ type FanServiceHandler interface {
 	Update(context.Context, *Fan, *FanResponse) error
 	Delete(context.Context, *Fan, *FanResponse) error
 	Get(context.Context, *Fan, *FanResponse) error
-	Search(context.Context, *FanWhere, *FanResponse) error
+	Search(context.Context, *FanRequest, *FanResponse) error
 }
 
 func RegisterFanServiceHandler(s server.Server, hdlr FanServiceHandler, opts ...server.HandlerOption) error {
@@ -174,7 +174,7 @@ func RegisterFanServiceHandler(s server.Server, hdlr FanServiceHandler, opts ...
 		Update(ctx context.Context, in *Fan, out *FanResponse) error
 		Delete(ctx context.Context, in *Fan, out *FanResponse) error
 		Get(ctx context.Context, in *Fan, out *FanResponse) error
-		Search(ctx context.Context, in *FanWhere, out *FanResponse) error
+		Search(ctx context.Context, in *FanRequest, out *FanResponse) error
 	}
 	type FanService struct {
 		fanService
@@ -199,6 +199,6 @@ func (h *fanServiceHandler) Get(ctx context.Context, in *Fan, out *FanResponse) 
 	return h.FanServiceHandler.Get(ctx, in, out)
 }
 
-func (h *fanServiceHandler) Search(ctx context.Context, in *FanWhere, out *FanResponse) error {
+func (h *fanServiceHandler) Search(ctx context.Context, in *FanRequest, out *FanResponse) error {
 	return h.FanServiceHandler.Search(ctx, in, out)
 }

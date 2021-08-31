@@ -1,0 +1,46 @@
+syntax = "proto3";
+package services;
+option go_package = ".;services";
+import "common/base.proto";
+
+service FootmarkService {
+    rpc Wx (FootmarkRequest) returns (FootmarkResponse) {}
+}
+
+message Footmark {
+    int64 id = 1;
+    string open_id = 4;
+    string union_id = 5;
+    string source = 6;
+    int64 recommender_id = 16;
+    int32 status = 17;
+    string registered_at = 18;
+    string created_at = 19;
+    string updated_at = 20;
+}
+
+
+//粉丝查询参数
+message FootmarkRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    string sorting = 3;
+    //以下为自定义参数
+    int64 id = 4;
+    string open_id = 5;
+    string union_id = 6;
+    string source = 7;
+    int64 recommender_id = 8;
+    int32 status =9;
+    string code = 10;
+}
+
+
+//
+message FootmarkResponse {
+    Footmark entity = 1;
+    common.Pager pager =2;
+    repeated Footmark items = 3;
+    common.Error error = 4;
+    common.Info info =5;
+}

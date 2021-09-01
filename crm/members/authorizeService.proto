@@ -29,6 +29,7 @@ message AuthorizeRequest{
     string new_pwd = 7;
     string confirm_pwd = 8;
     string code = 9;
+    int64 recommender_id = 10;
 }
 
 //

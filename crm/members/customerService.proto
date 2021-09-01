@@ -72,15 +72,16 @@ message Customer {
     string contact_tel= 25;
     string memo =26;
     int32 source =27;
-    int32 status =28;
-    string created_at =29;
-    string updated_at =30;
-    string deleted_at =31;
-    Level level =32;
+    int64 by_fan_id = 28;
+    int32 status =29;
+    string created_at =30;
+    string updated_at =31;
+    string deleted_at =32;
+    Level level =33;
     // @inject_tag: gorm:"many2many:customer_tags;"
-    repeated Tag tags = 33;
-    repeated VipCard vip_cards =34;
-    repeated Address addresses = 35;
+    repeated Tag tags = 34;
+    repeated VipCard vip_cards =35;
+    repeated Address addresses = 36;
 }
 
 //客户查询参数

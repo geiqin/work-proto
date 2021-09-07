@@ -16,8 +16,6 @@ service CustomerSecurityService {
     rpc BindMobile (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
     //绑定邮箱
     rpc BindEmail (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
-    //绑定微信
-    rpc BindWx (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
     //注销账户
     rpc Destroy (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
 }
@@ -27,12 +25,9 @@ message CustomerSecurity{
     int64 customer_id =2;
     string username = 3;
     string password =4;
-    string real_name =5;
-    string id_card =6;
-    string email = 7;
-    string mobile = 8;
-    string wx_open_id = 9;
-    Customer customer =10;
+    string email = 5;
+    string mobile = 6;
+    Customer customer =7;
 }
 
 message CustomerSecurityRequest{
@@ -45,7 +40,6 @@ message CustomerSecurityRequest{
     string new_password = 7;
     string confirm_password = 8;
     string code = 9;
-    string wx_open_id = 10;
 }
 
 //

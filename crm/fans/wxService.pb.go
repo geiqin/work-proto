@@ -32,12 +32,12 @@ type WxRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Signature     string `protobuf:"bytes,1,opt,name=signature,proto3" json:"signature,omitempty"`
-	Code          string `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
-	RawData       string `protobuf:"bytes,3,opt,name=rawData,proto3" json:"rawData,omitempty"`
-	EncryptedData string `protobuf:"bytes,4,opt,name=encryptedData,proto3" json:"encryptedData,omitempty"`
-	Iv            string `protobuf:"bytes,5,opt,name=iv,proto3" json:"iv,omitempty"`
-	Scene         string `protobuf:"bytes,6,opt,name=scene,proto3" json:"scene,omitempty"`
+	Signature     string `protobuf:"bytes,1,opt,name=signature,proto3" json:"signature"`
+	Code          string `protobuf:"bytes,2,opt,name=code,proto3" json:"code"`
+	RawData       string `protobuf:"bytes,3,opt,name=rawData,proto3" json:"rawData"`
+	EncryptedData string `protobuf:"bytes,4,opt,name=encryptedData,proto3" json:"encryptedData"`
+	Iv            string `protobuf:"bytes,5,opt,name=iv,proto3" json:"iv"`
+	Scene         string `protobuf:"bytes,6,opt,name=scene,proto3" json:"scene"`
 }
 
 func (x *WxRequest) Reset() {
@@ -120,13 +120,13 @@ type WxData struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	CustomerId string `protobuf:"bytes,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
-	FanId      string `protobuf:"bytes,2,opt,name=fan_id,json=fanId,proto3" json:"fan_id,omitempty"`
-	Name       string `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
-	Gender     string `protobuf:"bytes,4,opt,name=gender,proto3" json:"gender,omitempty"`
-	Mobile     string `protobuf:"bytes,5,opt,name=mobile,proto3" json:"mobile,omitempty"`
-	Birthday   string `protobuf:"bytes,6,opt,name=birthday,proto3" json:"birthday,omitempty"`
-	Qrcode     string `protobuf:"bytes,7,opt,name=qrcode,proto3" json:"qrcode,omitempty"` //base64
+	CustomerId string `protobuf:"bytes,1,opt,name=customer_id,json=customerId,proto3" json:"customer_id"`
+	FanId      string `protobuf:"bytes,2,opt,name=fan_id,json=fanId,proto3" json:"fan_id"`
+	Name       string `protobuf:"bytes,3,opt,name=name,proto3" json:"name"`
+	Gender     string `protobuf:"bytes,4,opt,name=gender,proto3" json:"gender"`
+	Mobile     string `protobuf:"bytes,5,opt,name=mobile,proto3" json:"mobile"`
+	Birthday   string `protobuf:"bytes,6,opt,name=birthday,proto3" json:"birthday"`
+	Qrcode     string `protobuf:"bytes,7,opt,name=qrcode,proto3" json:"qrcode"` //base64
 }
 
 func (x *WxData) Reset() {
@@ -215,11 +215,11 @@ type WxResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Entity *WxData       `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity,omitempty"`
-	Pager  *common.Pager `protobuf:"bytes,2,opt,name=pager,proto3" json:"pager,omitempty"`
-	Items  []*WxData     `protobuf:"bytes,3,rep,name=items,proto3" json:"items,omitempty"`
-	Error  *common.Error `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
-	Info   *common.Info  `protobuf:"bytes,5,opt,name=info,proto3" json:"info,omitempty"`
+	Entity *WxData       `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity"`
+	Pager  *common.Pager `protobuf:"bytes,2,opt,name=pager,proto3" json:"pager"`
+	Items  []*WxData     `protobuf:"bytes,3,rep,name=items,proto3" json:"items"`
+	Error  *common.Error `protobuf:"bytes,4,opt,name=error,proto3" json:"error"`
+	Info   *common.Info  `protobuf:"bytes,5,opt,name=info,proto3" json:"info"`
 }
 
 func (x *WxResponse) Reset() {

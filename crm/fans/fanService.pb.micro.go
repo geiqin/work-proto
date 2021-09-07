@@ -44,6 +44,7 @@ func NewMyFanServiceEndpoints() []*api.Endpoint {
 
 type MyFanService interface {
 	Info(ctx context.Context, in *FanRequest, opts ...client.CallOption) (*FanResponse, error)
+	BindWx(ctx context.Context, in *FanRequest, opts ...client.CallOption) (*FanResponse, error)
 }
 
 type myFanService struct {
@@ -68,15 +69,27 @@ func (c *myFanService) Info(ctx context.Context, in *FanRequest, opts ...client.
 	return out, nil
 }
 
+func (c *myFanService) BindWx(ctx context.Context, in *FanRequest, opts ...client.CallOption) (*FanResponse, error) {
+	req := c.c.NewRequest(c.name, "MyFanService.BindWx", in)
+	out := new(FanResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for MyFanService service
 
 type MyFanServiceHandler interface {
 	Info(context.Context, *FanRequest, *FanResponse) error
+	BindWx(context.Context, *FanRequest, *FanResponse) error
 }
 
 func RegisterMyFanServiceHandler(s server.Server, hdlr MyFanServiceHandler, opts ...server.HandlerOption) error {
 	type myFanService interface {
 		Info(ctx context.Context, in *FanRequest, out *FanResponse) error
+		BindWx(ctx context.Context, in *FanRequest, out *FanResponse) error
 	}
 	type MyFanService struct {
 		myFanService
@@ -91,6 +104,10 @@ type myFanServiceHandler struct {
 
 func (h *myFanServiceHandler) Info(ctx context.Context, in *FanRequest, out *FanResponse) error {
 	return h.MyFanServiceHandler.Info(ctx, in, out)
+}
+
+func (h *myFanServiceHandler) BindWx(ctx context.Context, in *FanRequest, out *FanResponse) error {
+	return h.MyFanServiceHandler.BindWx(ctx, in, out)
 }
 
 // Api Endpoints for FanService service

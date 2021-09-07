@@ -53,8 +53,6 @@ type CustomerSecurityService interface {
 	BindMobile(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
 	//绑定邮箱
 	BindEmail(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
-	//绑定微信
-	BindWx(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
 	//注销账户
 	Destroy(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
 }
@@ -121,16 +119,6 @@ func (c *customerSecurityService) BindEmail(ctx context.Context, in *CustomerSec
 	return out, nil
 }
 
-func (c *customerSecurityService) BindWx(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error) {
-	req := c.c.NewRequest(c.name, "CustomerSecurityService.BindWx", in)
-	out := new(CustomerSecurityResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *customerSecurityService) Destroy(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error) {
 	req := c.c.NewRequest(c.name, "CustomerSecurityService.Destroy", in)
 	out := new(CustomerSecurityResponse)
@@ -154,8 +142,6 @@ type CustomerSecurityServiceHandler interface {
 	BindMobile(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
 	//绑定邮箱
 	BindEmail(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
-	//绑定微信
-	BindWx(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
 	//注销账户
 	Destroy(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
 }
@@ -167,7 +153,6 @@ func RegisterCustomerSecurityServiceHandler(s server.Server, hdlr CustomerSecuri
 		ModifyPwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		BindMobile(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		BindEmail(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
-		BindWx(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		Destroy(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 	}
 	type CustomerSecurityService struct {
@@ -199,10 +184,6 @@ func (h *customerSecurityServiceHandler) BindMobile(ctx context.Context, in *Cus
 
 func (h *customerSecurityServiceHandler) BindEmail(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {
 	return h.CustomerSecurityServiceHandler.BindEmail(ctx, in, out)
-}
-
-func (h *customerSecurityServiceHandler) BindWx(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {
-	return h.CustomerSecurityServiceHandler.BindWx(ctx, in, out)
 }
 
 func (h *customerSecurityServiceHandler) Destroy(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {

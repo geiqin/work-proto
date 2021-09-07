@@ -5,6 +5,7 @@ import "common/base.proto";
 
 service MyFanService {
     rpc Info (FanRequest) returns (FanResponse) {}
+    rpc BindWx (FanRequest) returns (FanResponse) {}
 }
 
 service FanService {
@@ -53,7 +54,8 @@ message FanRequest {
     string open_id =10;
     int64 customer_id=11;
     int64 recommender_id = 12;
-    repeated int64 ids = 13;
+    string code =13;
+    repeated int64 ids = 14;
 }
 
 

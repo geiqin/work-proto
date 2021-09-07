@@ -36,7 +36,7 @@ type FanTrack struct {
 	CreatedAt string `protobuf:"bytes,17,opt,name=created_at,json=createdAt,proto3" json:"created_at"`
 	UpdatedAt string `protobuf:"bytes,18,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at"`
 	// @inject_tag: gorm:"-"
-	Ids []int64 `protobuf:"varint,20,rep,packed,name=ids,proto3" json:"ids" gorm:"-"`
+	Ids []int64 `protobuf:"varint,20,rep,packed,name=ids,proto3" json:"ids"`
 }
 
 func (x *FanTrack) Reset() {

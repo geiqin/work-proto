@@ -40,8 +40,6 @@ service CustomerService {
     rpc GetByMobile (CustomerRequest) returns (CustomerResponse) {}
     //获取已绑定邮箱用户(SRV专用)
     rpc GetByEmail (CustomerRequest) returns (CustomerResponse) {}
-    //获取已绑定微信用户(SRV专用)
-    rpc GetByWx (CustomerRequest) returns (CustomerResponse) {}
 }
 
 message Customer {

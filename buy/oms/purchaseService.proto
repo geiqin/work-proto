@@ -24,17 +24,18 @@ message RechargeRequest {
 
 //下单请求参数
 message PurchaseRequest {
-    string type = 1; //订单类型（默认为普通订单）
-    int64 address_id = 2; //收货地址ID
-    string message = 3; //买家留言(50字以内)
-    int32 pay_method = 4; //选中的支付方式
-    string source = 5; //下单来源
-    int64 ticket_id = 6; //选中的优惠劵凭证ID
-    int32 points = 7; //使用的积分数
-    int64 vip_card_id = 8; //选中的会员卡
-    int64 customer_id = 9; //客户ID（代客下单）
-    repeated PurchaseItem goods_list = 10;//选中的商品清单
-    map<string,string> metas = 11; //订单扩展信息
+    int32 type = 1; //订单类型（默认为普通订单）
+    int32 serial = 2; //订单类型序
+    int64 address_id = 3; //收货地址ID
+    string message = 4; //买家留言(50字以内)
+    int32 pay_method = 5; //选中的支付方式
+    string source = 6; //下单来源
+    int64 ticket_id = 7; //选中的优惠劵凭证ID
+    int32 points = 8; //使用的积分数
+    int64 vip_card_id = 9; //选中的会员卡
+    int64 customer_id = 10; //客户ID（代客下单）
+    repeated PurchaseItem goods_list = 11;//选中的商品清单
+    map<string,string> metas = 12; //订单扩展信息
 }
 
 //下单商品项

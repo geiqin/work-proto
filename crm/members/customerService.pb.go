@@ -65,7 +65,7 @@ type Customer struct {
 	DeletedAt      string  `protobuf:"bytes,32,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at"`
 	Level          *Level  `protobuf:"bytes,33,opt,name=level,proto3" json:"level"`
 	// @inject_tag: gorm:"many2many:customer_tags;"
-	Tags      []*Tag     `protobuf:"bytes,34,rep,name=tags,proto3" gorm:"many2many:customer_tags;" json:"tags"`
+	Tags      []*Tag     `protobuf:"bytes,34,rep,name=tags,proto3" json:"tags" gorm:"many2many:customer_tags;"`
 	VipCards  []*VipCard `protobuf:"bytes,35,rep,name=vip_cards,json=vipCards,proto3" json:"vip_cards"`
 	Addresses []*Address `protobuf:"bytes,36,rep,name=addresses,proto3" json:"addresses"`
 }
@@ -841,7 +841,7 @@ var file_customerService_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x2e, 0x45, 0x72, 0x72, 0x6f, 0x72, 0x52, 0x05, 0x65, 0x72, 0x72, 0x6f, 0x72, 0x12,
 	0x20, 0x0a, 0x04, 0x69, 0x6e, 0x66, 0x6f, 0x18, 0x05, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0c, 0x2e,
 	0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2e, 0x49, 0x6e, 0x66, 0x6f, 0x52, 0x04, 0x69, 0x6e, 0x66,
-	0x6f, 0x32, 0xde, 0x08, 0x0a, 0x0f, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x53, 0x65,
+	0x6f, 0x32, 0x9a, 0x08, 0x0a, 0x0f, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x53, 0x65,
 	0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x3a, 0x0a, 0x06, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x12,
 	0x12, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x43, 0x75, 0x73, 0x74, 0x6f,
 	0x6d, 0x65, 0x72, 0x1a, 0x1a, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x43,
@@ -906,13 +906,9 @@ var file_customerService_proto_rawDesc = []byte{
 	0x45, 0x6d, 0x61, 0x69, 0x6c, 0x12, 0x19, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73,
 	0x2e, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x1a, 0x1a, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x43, 0x75, 0x73, 0x74,
-	0x6f, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x42,
-	0x0a, 0x07, 0x47, 0x65, 0x74, 0x42, 0x79, 0x57, 0x78, 0x12, 0x19, 0x2e, 0x73, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x73, 0x2e, 0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e,
-	0x43, 0x75, 0x73, 0x74, 0x6f, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x3b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6f, 0x6d, 0x65, 0x72, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0c,
+	0x5a, 0x0a, 0x2e, 0x3b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72,
+	0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -966,26 +962,24 @@ var file_customerService_proto_depIdxs = []int32{
 	0,  // 22: services.CustomerService.SetCards:input_type -> services.Customer
 	1,  // 23: services.CustomerService.GetByMobile:input_type -> services.CustomerRequest
 	1,  // 24: services.CustomerService.GetByEmail:input_type -> services.CustomerRequest
-	1,  // 25: services.CustomerService.GetByWx:input_type -> services.CustomerRequest
-	2,  // 26: services.CustomerService.Create:output_type -> services.CustomerResponse
-	2,  // 27: services.CustomerService.CreateCompany:output_type -> services.CustomerResponse
-	2,  // 28: services.CustomerService.UpdateCompany:output_type -> services.CustomerResponse
-	2,  // 29: services.CustomerService.CreateByFan:output_type -> services.CustomerResponse
-	2,  // 30: services.CustomerService.Update:output_type -> services.CustomerResponse
-	2,  // 31: services.CustomerService.Delete:output_type -> services.CustomerResponse
-	2,  // 32: services.CustomerService.Lock:output_type -> services.CustomerResponse
-	2,  // 33: services.CustomerService.Unlock:output_type -> services.CustomerResponse
-	2,  // 34: services.CustomerService.Get:output_type -> services.CustomerResponse
-	2,  // 35: services.CustomerService.Detail:output_type -> services.CustomerResponse
-	2,  // 36: services.CustomerService.List:output_type -> services.CustomerResponse
-	2,  // 37: services.CustomerService.Search:output_type -> services.CustomerResponse
-	2,  // 38: services.CustomerService.SetTags:output_type -> services.CustomerResponse
-	2,  // 39: services.CustomerService.SetCards:output_type -> services.CustomerResponse
-	2,  // 40: services.CustomerService.GetByMobile:output_type -> services.CustomerResponse
-	2,  // 41: services.CustomerService.GetByEmail:output_type -> services.CustomerResponse
-	2,  // 42: services.CustomerService.GetByWx:output_type -> services.CustomerResponse
-	26, // [26:43] is the sub-list for method output_type
-	9,  // [9:26] is the sub-list for method input_type
+	2,  // 25: services.CustomerService.Create:output_type -> services.CustomerResponse
+	2,  // 26: services.CustomerService.CreateCompany:output_type -> services.CustomerResponse
+	2,  // 27: services.CustomerService.UpdateCompany:output_type -> services.CustomerResponse
+	2,  // 28: services.CustomerService.CreateByFan:output_type -> services.CustomerResponse
+	2,  // 29: services.CustomerService.Update:output_type -> services.CustomerResponse
+	2,  // 30: services.CustomerService.Delete:output_type -> services.CustomerResponse
+	2,  // 31: services.CustomerService.Lock:output_type -> services.CustomerResponse
+	2,  // 32: services.CustomerService.Unlock:output_type -> services.CustomerResponse
+	2,  // 33: services.CustomerService.Get:output_type -> services.CustomerResponse
+	2,  // 34: services.CustomerService.Detail:output_type -> services.CustomerResponse
+	2,  // 35: services.CustomerService.List:output_type -> services.CustomerResponse
+	2,  // 36: services.CustomerService.Search:output_type -> services.CustomerResponse
+	2,  // 37: services.CustomerService.SetTags:output_type -> services.CustomerResponse
+	2,  // 38: services.CustomerService.SetCards:output_type -> services.CustomerResponse
+	2,  // 39: services.CustomerService.GetByMobile:output_type -> services.CustomerResponse
+	2,  // 40: services.CustomerService.GetByEmail:output_type -> services.CustomerResponse
+	25, // [25:41] is the sub-list for method output_type
+	9,  // [9:25] is the sub-list for method input_type
 	9,  // [9:9] is the sub-list for extension type_name
 	9,  // [9:9] is the sub-list for extension extendee
 	0,  // [0:9] is the sub-list for field type_name

@@ -43,6 +43,8 @@ func NewCustomerSecurityServiceEndpoints() []*api.Endpoint {
 // Client API for CustomerSecurityService service
 
 type CustomerSecurityService interface {
+	//显示信息
+	Display(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
 	//判断有无密码保护
 	HasPwd(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
 	//创建密码(未设置密码前可用)
@@ -67,6 +69,16 @@ func NewCustomerSecurityService(name string, c client.Client) CustomerSecuritySe
 		c:    c,
 		name: name,
 	}
+}
+
+func (c *customerSecurityService) Display(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error) {
+	req := c.c.NewRequest(c.name, "CustomerSecurityService.Display", in)
+	out := new(CustomerSecurityResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *customerSecurityService) HasPwd(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error) {
@@ -132,6 +144,8 @@ func (c *customerSecurityService) Destroy(ctx context.Context, in *CustomerSecur
 // Server API for CustomerSecurityService service
 
 type CustomerSecurityServiceHandler interface {
+	//显示信息
+	Display(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
 	//判断有无密码保护
 	HasPwd(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
 	//创建密码(未设置密码前可用)
@@ -148,6 +162,7 @@ type CustomerSecurityServiceHandler interface {
 
 func RegisterCustomerSecurityServiceHandler(s server.Server, hdlr CustomerSecurityServiceHandler, opts ...server.HandlerOption) error {
 	type customerSecurityService interface {
+		Display(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		HasPwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		CreatePwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		ModifyPwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
@@ -164,6 +179,10 @@ func RegisterCustomerSecurityServiceHandler(s server.Server, hdlr CustomerSecuri
 
 type customerSecurityServiceHandler struct {
 	CustomerSecurityServiceHandler
+}
+
+func (h *customerSecurityServiceHandler) Display(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {
+	return h.CustomerSecurityServiceHandler.Display(ctx, in, out)
 }
 
 func (h *customerSecurityServiceHandler) HasPwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {

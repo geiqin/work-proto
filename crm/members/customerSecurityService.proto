@@ -6,6 +6,8 @@ import "customerService.proto";
 
 //安全管理
 service CustomerSecurityService {
+    //显示信息
+    rpc Display (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
     //判断有无密码保护
     rpc HasPwd (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
     //创建密码(未设置密码前可用)
@@ -42,10 +44,11 @@ message CustomerSecurityRequest{
     string code = 9;
 }
 
-//
 message CustomerSecurityResponse {
-    common.Token entity = 1;
+    CustomerSecurity entity = 1;
     common.Pager pager =2;
+    repeated CustomerSecurity items = 3;
     common.Error error = 4;
     common.Info info =5;
+    map<string,string> params =6;
 }

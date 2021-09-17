@@ -12,14 +12,7 @@ service PurchaseService {
     //提交订单
     rpc Submit (PurchaseRequest) returns (OrderResponse) {}
     //充值下单
-    rpc Recharge (RechargeRequest) returns (OrderResponse) {}
-}
-
-//充值下单请求参数
-message RechargeRequest {
-    string channel = 1; //充值通道: vip_capital余额充值, phone_fee话费充值, deposit交保证金
-    float money = 2; //充值金额
-    string content = 3; //内容：比如话费充值，这里就是手机号
+    rpc Recharge (PurchaseRequest) returns (OrderResponse) {}
 }
 
 //下单请求参数
@@ -34,8 +27,16 @@ message PurchaseRequest {
     int32 points = 8; //使用的积分数
     int64 vip_card_id = 9; //选中的会员卡
     int64 customer_id = 10; //客户ID（代客下单）
-    repeated PurchaseItem goods_list = 11;//选中的商品清单
-    map<string,string> metas = 12; //订单扩展信息
+    int64 ext11 =11;
+    int32 ext21 =12;
+    int32 ext22 =13;
+    string ext31 =14;
+    string ext32 =15;
+    string ext33 =16;
+    float money =17; //订单金额【充值订单】
+    string subject =18; //订单标题【充值订单】
+    map<string,string> metas = 19; //订单扩展信息
+    repeated PurchaseItem goods_list = 20;//选中的商品清单
 }
 
 //下单商品项

@@ -5,6 +5,10 @@ import "common/base.proto";
 import "customerService.proto";
 
 service CapitalRecordService {
+  //增加余额（增加）
+  rpc Income (CapitalRecord) returns (CapitalRecordResponse) {}
+  //扣除余额(支出)
+  rpc Expend (CapitalRecord) returns (CapitalRecordResponse) {}
   //获得余额记录信息
   rpc Get (CapitalRecord) returns (CapitalRecordResponse) {}
   //查询余额记录信息

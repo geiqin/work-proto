@@ -43,6 +43,10 @@ func NewCapitalRecordServiceEndpoints() []*api.Endpoint {
 // Client API for CapitalRecordService service
 
 type CapitalRecordService interface {
+	//增加余额（增加）
+	Income(ctx context.Context, in *CapitalRecord, opts ...client.CallOption) (*CapitalRecordResponse, error)
+	//扣除余额(支出)
+	Expend(ctx context.Context, in *CapitalRecord, opts ...client.CallOption) (*CapitalRecordResponse, error)
 	//获得余额记录信息
 	Get(ctx context.Context, in *CapitalRecord, opts ...client.CallOption) (*CapitalRecordResponse, error)
 	//查询余额记录信息
@@ -59,6 +63,26 @@ func NewCapitalRecordService(name string, c client.Client) CapitalRecordService 
 		c:    c,
 		name: name,
 	}
+}
+
+func (c *capitalRecordService) Income(ctx context.Context, in *CapitalRecord, opts ...client.CallOption) (*CapitalRecordResponse, error) {
+	req := c.c.NewRequest(c.name, "CapitalRecordService.Income", in)
+	out := new(CapitalRecordResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *capitalRecordService) Expend(ctx context.Context, in *CapitalRecord, opts ...client.CallOption) (*CapitalRecordResponse, error) {
+	req := c.c.NewRequest(c.name, "CapitalRecordService.Expend", in)
+	out := new(CapitalRecordResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *capitalRecordService) Get(ctx context.Context, in *CapitalRecord, opts ...client.CallOption) (*CapitalRecordResponse, error) {
@@ -84,6 +108,10 @@ func (c *capitalRecordService) Search(ctx context.Context, in *CapitalRecordRequ
 // Server API for CapitalRecordService service
 
 type CapitalRecordServiceHandler interface {
+	//增加余额（增加）
+	Income(context.Context, *CapitalRecord, *CapitalRecordResponse) error
+	//扣除余额(支出)
+	Expend(context.Context, *CapitalRecord, *CapitalRecordResponse) error
 	//获得余额记录信息
 	Get(context.Context, *CapitalRecord, *CapitalRecordResponse) error
 	//查询余额记录信息
@@ -92,6 +120,8 @@ type CapitalRecordServiceHandler interface {
 
 func RegisterCapitalRecordServiceHandler(s server.Server, hdlr CapitalRecordServiceHandler, opts ...server.HandlerOption) error {
 	type capitalRecordService interface {
+		Income(ctx context.Context, in *CapitalRecord, out *CapitalRecordResponse) error
+		Expend(ctx context.Context, in *CapitalRecord, out *CapitalRecordResponse) error
 		Get(ctx context.Context, in *CapitalRecord, out *CapitalRecordResponse) error
 		Search(ctx context.Context, in *CapitalRecordRequest, out *CapitalRecordResponse) error
 	}
@@ -104,6 +134,14 @@ func RegisterCapitalRecordServiceHandler(s server.Server, hdlr CapitalRecordServ
 
 type capitalRecordServiceHandler struct {
 	CapitalRecordServiceHandler
+}
+
+func (h *capitalRecordServiceHandler) Income(ctx context.Context, in *CapitalRecord, out *CapitalRecordResponse) error {
+	return h.CapitalRecordServiceHandler.Income(ctx, in, out)
+}
+
+func (h *capitalRecordServiceHandler) Expend(ctx context.Context, in *CapitalRecord, out *CapitalRecordResponse) error {
+	return h.CapitalRecordServiceHandler.Expend(ctx, in, out)
 }
 
 func (h *capitalRecordServiceHandler) Get(ctx context.Context, in *CapitalRecord, out *CapitalRecordResponse) error {

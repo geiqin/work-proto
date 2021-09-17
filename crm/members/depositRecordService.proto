@@ -5,9 +5,13 @@ import "common/base.proto";
 import "customerService.proto";
 
 service DepositRecordService {
-  //获得余额记录信息
+  //增加保证金（增加）
+  rpc Income (DepositRecord) returns (DepositRecordResponse) {}
+  //扣除保证金(支出)
+  rpc Expend (DepositRecord) returns (DepositRecordResponse) {}
+  //获得保证金记录信息
   rpc Get (DepositRecord) returns (DepositRecordResponse) {}
-  //查询余额记录信息
+  //查询保证金记录信息
   rpc Search (DepositRecordRequest) returns (DepositRecordResponse) {}
 }
 

@@ -43,9 +43,13 @@ func NewDepositRecordServiceEndpoints() []*api.Endpoint {
 // Client API for DepositRecordService service
 
 type DepositRecordService interface {
-	//获得余额记录信息
+	//增加保证金（增加）
+	Income(ctx context.Context, in *DepositRecord, opts ...client.CallOption) (*DepositRecordResponse, error)
+	//扣除保证金(支出)
+	Expend(ctx context.Context, in *DepositRecord, opts ...client.CallOption) (*DepositRecordResponse, error)
+	//获得保证金记录信息
 	Get(ctx context.Context, in *DepositRecord, opts ...client.CallOption) (*DepositRecordResponse, error)
-	//查询余额记录信息
+	//查询保证金记录信息
 	Search(ctx context.Context, in *DepositRecordRequest, opts ...client.CallOption) (*DepositRecordResponse, error)
 }
 
@@ -59,6 +63,26 @@ func NewDepositRecordService(name string, c client.Client) DepositRecordService 
 		c:    c,
 		name: name,
 	}
+}
+
+func (c *depositRecordService) Income(ctx context.Context, in *DepositRecord, opts ...client.CallOption) (*DepositRecordResponse, error) {
+	req := c.c.NewRequest(c.name, "DepositRecordService.Income", in)
+	out := new(DepositRecordResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *depositRecordService) Expend(ctx context.Context, in *DepositRecord, opts ...client.CallOption) (*DepositRecordResponse, error) {
+	req := c.c.NewRequest(c.name, "DepositRecordService.Expend", in)
+	out := new(DepositRecordResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *depositRecordService) Get(ctx context.Context, in *DepositRecord, opts ...client.CallOption) (*DepositRecordResponse, error) {
@@ -84,14 +108,20 @@ func (c *depositRecordService) Search(ctx context.Context, in *DepositRecordRequ
 // Server API for DepositRecordService service
 
 type DepositRecordServiceHandler interface {
-	//获得余额记录信息
+	//增加保证金（增加）
+	Income(context.Context, *DepositRecord, *DepositRecordResponse) error
+	//扣除保证金(支出)
+	Expend(context.Context, *DepositRecord, *DepositRecordResponse) error
+	//获得保证金记录信息
 	Get(context.Context, *DepositRecord, *DepositRecordResponse) error
-	//查询余额记录信息
+	//查询保证金记录信息
 	Search(context.Context, *DepositRecordRequest, *DepositRecordResponse) error
 }
 
 func RegisterDepositRecordServiceHandler(s server.Server, hdlr DepositRecordServiceHandler, opts ...server.HandlerOption) error {
 	type depositRecordService interface {
+		Income(ctx context.Context, in *DepositRecord, out *DepositRecordResponse) error
+		Expend(ctx context.Context, in *DepositRecord, out *DepositRecordResponse) error
 		Get(ctx context.Context, in *DepositRecord, out *DepositRecordResponse) error
 		Search(ctx context.Context, in *DepositRecordRequest, out *DepositRecordResponse) error
 	}
@@ -104,6 +134,14 @@ func RegisterDepositRecordServiceHandler(s server.Server, hdlr DepositRecordServ
 
 type depositRecordServiceHandler struct {
 	DepositRecordServiceHandler
+}
+
+func (h *depositRecordServiceHandler) Income(ctx context.Context, in *DepositRecord, out *DepositRecordResponse) error {
+	return h.DepositRecordServiceHandler.Income(ctx, in, out)
+}
+
+func (h *depositRecordServiceHandler) Expend(ctx context.Context, in *DepositRecord, out *DepositRecordResponse) error {
+	return h.DepositRecordServiceHandler.Expend(ctx, in, out)
 }
 
 func (h *depositRecordServiceHandler) Get(ctx context.Context, in *DepositRecord, out *DepositRecordResponse) error {

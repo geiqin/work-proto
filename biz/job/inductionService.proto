@@ -1,0 +1,81 @@
+syntax = "proto3";
+package services;
+option go_package =".;services";
+import "common/base.proto";
+import "enterpriseService.proto";
+
+service InductionService {
+    rpc Create (Induction) returns (InductionResponse) {}
+    rpc Update (Induction) returns (InductionResponse) {}
+    //报名入职登记
+    rpc Entry (InductionRequest) returns (InductionResponse) {}
+    //离职登记
+    rpc Quit (InductionRequest) returns (InductionResponse) {}
+    //删除入职信息
+    rpc Delete (Induction) returns (InductionResponse) {}
+    rpc Get (Induction) returns (InductionResponse) {}
+    rpc Search (InductionRequest) returns (InductionResponse) {}
+    rpc GetByCustomerId (common.Empty) returns (InductionResponse) {}
+}
+
+message Induction {
+  int64 id =1;
+  int64 enterprise_id =2;
+  string dept_name =3;
+  string job_no =4;
+  int64 customer_id =5;
+  int64 recommender_id =6;
+  string real_name =7;
+  string id_card =8;
+  int32 gender =9;
+  int32 nation =10;
+  string birthday =11;
+  string mobile =12;
+  int32 work_type =13;
+  float basic_salary =14;
+  float hour_price =15;
+  float cost_price =16;
+  int64 source_position_id =17;
+  string source_position_title =18;
+  string entry_date =19;
+  string quit_date =20;
+  string demo =21;
+  int32 state =22;
+  string created_at =23;
+  string updated_at =24;
+  Enterprise enterprise =25;
+}
+
+//标签查询参数
+message InductionRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    string sorting = 3;
+    //以下为自定义参数
+    int64 id =4;
+    int64 enterprise_id =5;
+    string job_no =6;
+    int64 recommender_id =7;
+    string real_name =8;
+    string id_card =9;
+    int32 gender =10;
+    int32 nation =11;
+    string birthday =12;
+    string mobile =13;
+    int32 work_type =14;
+    string entry_date =15;
+    string quit_date =16;
+    string demo =17;
+    int32 state =18;
+    int64 customer_id =19;
+    int64 position_offer_id =20;
+}
+
+//
+message InductionResponse {
+    Induction entity = 1;
+    common.Pager pager =2;
+    repeated Induction items = 3;
+    common.Error error = 4;
+    common.Info info =5;
+}

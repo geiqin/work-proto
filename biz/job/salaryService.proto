@@ -1,0 +1,73 @@
+syntax = "proto3";
+package services;
+option go_package =".;services";
+import "common/base.proto";
+import "inductionService.proto";
+
+service SalaryService {
+    rpc Create (Salary) returns (SalaryResponse) {}
+    rpc Update (Salary) returns (SalaryResponse) {}
+    rpc Check (Salary) returns (SalaryResponse) {}
+    rpc Delete (Salary) returns (SalaryResponse) {}
+    rpc Get (Salary) returns (SalaryResponse) {}
+    rpc Search (SalaryRequest) returns (SalaryResponse) {}
+}
+
+message Salary {
+    int64 id =1;
+    int64 induction_id =2;
+    int64 enterprise_id =3;
+    string dept_name =4;
+    string job_name =5;
+    int32 year =6;
+    int32 month =7;
+    int64 work_type =8;
+    float basic_salary =9;
+    float hour_price =10;
+    float cost_price =11;
+    float base_hours =12;
+    float extra_hours =13;
+    float extra_twice_hours =14;
+    float extra_triple_hours =15;
+    float base_money =16;
+    float extra_money =17;
+    float extra_twice_money =18;
+    float extra_triple_money =19;
+    float cut_tax_fee =20;
+    float cut_loan_fee =21;
+    float cut_other_fee =22;
+    float total_money =23;
+    float total_fee =24;
+    float payable_money =25;
+    bool paid =26;
+    string paid_at =27;
+    int32 state =28;
+    string memo =29;
+    string created_at =30;
+    string updated_at =31;
+    Induction induction =32;
+}
+
+//标签查询参数
+message SalaryRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    string sorting = 3;
+    //以下为自定义参数
+    int64 induction_id =4;
+    int64 enterprise_id =5;
+    string dept_name =6;
+    string job_name =7;
+    int32 year =8;
+    int32 month =9;
+    int64 work_type =10;
+}
+
+//
+message SalaryResponse {
+    Salary entity = 1;
+    common.Pager pager =2;
+    repeated Salary items = 3;
+    common.Error error = 4;
+    common.Info info =5;
+}

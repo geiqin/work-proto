@@ -1,0 +1,71 @@
+syntax = "proto3";
+package services;
+option go_package =".;services";
+import "common/base.proto";
+import "enterpriseService.proto";
+import "tagService.proto";
+import "catService.proto";
+
+service PositionService {
+    rpc Create (Position) returns (PositionResponse) {}
+    rpc Update (Position) returns (PositionResponse) {}
+    rpc Delete (Position) returns (PositionResponse) {}
+    rpc Get (Position) returns (PositionResponse) {}
+    rpc Search (PositionRequest) returns (PositionResponse) {}
+}
+
+message Position {
+    int64 id =1;
+    string title =2;
+    int64 enterprise_id =3;
+    int32 work_type =4;
+    float basic_salary =5;
+    float hour_price =6;
+    float cost_price =7;
+    int32 salary_min =8;
+    int32 salary_max =9;
+    int32 number =10;
+    int32 seeker_num =11;
+    string intro =12;
+    string salary_desc =13;
+    string entry_desc =14;
+    int32 leave_type =15;
+    int32 work_limit =16;
+    int32 state =17;
+    string created_at =18;
+    string updated_at =19;
+    Enterprise enterprise =20;
+    // @inject_tag: gorm:"many2many:position_tags;"
+    repeated Tag tags =21;
+    // @inject_tag: gorm:"many2many:position_cats;"
+    repeated Cat cats =22;
+}
+
+//标签查询参数
+message PositionRequest{
+    int32 paged = 1;
+    int32 page_size = 2;
+    string sorting = 3;
+    //以下为自定义参数
+    string title = 4;
+    int64 enterprise_id = 5;
+    int32 work_type =6;
+    float hour_price =7;
+    int32 leave_type =8;
+    int32 work_limit =9;
+    int32 state =10;
+    int32 cat_id =11;
+    string cat_slug =12;
+    int32 tag_id =13;
+    string tag_slug =14;
+
+}
+
+//
+message PositionResponse {
+    Position entity = 1;
+    common.Pager pager =2;
+    repeated Position items = 3;
+    common.Error error = 4;
+    common.Info info =5;
+}

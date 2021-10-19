@@ -1,0 +1,72 @@
+syntax = "proto3";
+package services;
+option go_package =".;services";
+import "common/base.proto";
+import "positionService.proto";
+
+service PositionOfferService {
+    rpc Create (PositionOfferRequest) returns (PositionOfferResponse) {}
+    rpc Update (PositionOffer) returns (PositionOfferResponse) {}
+    rpc Check (PositionOffer) returns (PositionOfferResponse) {}
+    rpc Delete (PositionOffer) returns (PositionOfferResponse) {}
+    rpc Get (PositionOffer) returns (PositionOfferResponse) {}
+    rpc Search (PositionOfferRequest) returns (PositionOfferResponse) {}
+}
+
+message PositionOffer {
+    int64 id =1;
+    int64 position_id =2;
+    int64 customer_id =3;
+    int64 seeker_id =4;
+    string real_name =5;
+    string id_card =6;
+    int32 gender =7;
+    int32 nation =8;
+    string birthday =9;
+    string mobile =10;
+    int64 area_id =11;
+    string reason =12;
+    int32 start_type =13;
+    string start_date =14;
+    int32 work_period =15;
+    string memo =16;
+    int32 state =17;
+    string created_at =18;
+    string updated_at =19;
+    Position position =20;
+}
+
+//查询参数
+message PositionOfferRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    string sorting = 3;
+    //以下为自定义参数
+    string name = 4;
+    int64 position_id =5;
+    int64 customer_id = 6;
+    string real_name =7;
+    string id_card =8;
+    int32 gender =9;
+    string mobile =10;
+    int32 nation =11;
+    bool is_poor =12;
+    int32 start_type =13;
+    string start_date =14;
+    int32 start_place =15;
+    int32 work_period =16;
+    int32 state =17;
+    string memo =18;
+    bool has_yourself =19;
+    repeated int64 seeker_ids =20;
+}
+
+//
+message PositionOfferResponse {
+    PositionOffer entity = 1;
+    common.Pager pager =2;
+    repeated PositionOffer items = 3;
+    common.Error error = 4;
+    common.Info info =5;
+    map<string,string> params = 6;
+}

@@ -1,0 +1,52 @@
+syntax = "proto3";
+package services;
+option go_package =".;services";
+import "common/base.proto";
+import "enterpriseGalleryService.proto";
+
+service EnterpriseService {
+    rpc Create (Enterprise) returns (EnterpriseResponse) {}
+    rpc Update (Enterprise) returns (EnterpriseResponse) {}
+    rpc Delete (Enterprise) returns (EnterpriseResponse) {}
+    rpc Get (Enterprise) returns (EnterpriseResponse) {}
+    rpc Search (EnterpriseRequest) returns (EnterpriseResponse) {}
+}
+
+message Enterprise {
+    int64 id =1;
+    string code =2;
+    string name =3;
+    int64 logo_id =4;
+    string logo_url =5;
+    int64 area_id =6;
+    string address =7;
+    string contact_man =8;
+    string contact_tel =9;
+    string contact_email =10;
+    string intro =11;
+    int32 state =12;
+    string created_at =13;
+    string updated_at =14;
+    repeated EnterpriseGallery galleries = 28;
+}
+
+//标签查询参数
+message EnterpriseRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    string sorting = 3;
+    //以下为自定义参数
+    string name = 4;
+    string code =5;
+    int64 area_id = 6;
+    int32 state =7;
+}
+
+//
+message EnterpriseResponse {
+    Enterprise entity = 1;
+    common.Pager pager =2;
+    repeated Enterprise items = 3;
+    common.Error error = 4;
+    common.Info info =5;
+}

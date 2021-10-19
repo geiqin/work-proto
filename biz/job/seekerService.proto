@@ -1,0 +1,56 @@
+syntax = "proto3";
+package services;
+option go_package =".;services";
+import "common/base.proto";
+
+service SeekerService {
+    rpc Create (Seeker) returns (SeekerResponse) {}
+    rpc Update (Seeker) returns (SeekerResponse) {}
+    rpc Delete (Seeker) returns (SeekerResponse) {}
+    rpc Get (Seeker) returns (SeekerResponse) {}
+    rpc List (SeekerRequest) returns (SeekerResponse) {}
+    rpc Search (SeekerRequest) returns (SeekerResponse) {}
+}
+
+message Seeker {
+    int64 id =1;
+    int64 customer_id =2;
+    string real_name =3;
+    string id_card =4;
+    int32 gender =5;
+    int32 nation =6;
+    string birthday =7;
+    string mobile =8;
+    bool is_poor =9;
+    int64  area_id =10;
+    int32 state =11;
+    string created_at =12;
+    string updated_at =13;
+}
+
+//查询参数
+message SeekerRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    string sorting = 3;
+    //以下为自定义参数
+    string name = 4;
+    int64 customer_id = 5;
+    string real_name =6;
+    string id_card =7;
+    int32 gender =8;
+    string mobile =9;
+    bool is_poor =10;
+    int64 area_id =11;
+    int32 state =12;
+    int32 nation =13;
+}
+
+//
+message SeekerResponse {
+    Seeker entity = 1;
+    common.Pager pager =2;
+    repeated Seeker items = 3;
+    common.Error error = 4;
+    common.Info info =5;
+}

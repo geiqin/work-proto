@@ -1,0 +1,41 @@
+syntax = "proto3";
+package services;
+option go_package =".;services";
+import "common/base.proto";
+
+service AttendanceService {
+    rpc Create (Attendance) returns (AttendanceResponse) {}
+    rpc Update (Attendance) returns (AttendanceResponse) {}
+    rpc Delete (Attendance) returns (AttendanceResponse) {}
+    rpc Get (Attendance) returns (AttendanceResponse) {}
+    rpc Search (AttendanceRequest) returns (AttendanceResponse) {}
+}
+
+message Attendance {
+    int64 id =1;
+    int64 enterprise_id =2;
+    string job_no =3;
+    int64 worker_id =4;
+    string real_name =5;
+    string id_card =6;
+}
+
+//标签查询参数
+message AttendanceRequest {
+    int32 paged = 1;
+    int32 page_size = 2;
+    string sorting = 3;
+    //以下为自定义参数
+    string name = 4;
+    int64 customer_id = 5;
+
+}
+
+//
+message AttendanceResponse {
+    Attendance entity = 1;
+    common.Pager pager =2;
+    repeated Attendance items = 3;
+    common.Error error = 4;
+    common.Info info =5;
+}

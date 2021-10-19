@@ -5,7 +5,7 @@ package services
 
 import (
 	fmt "fmt"
-	common "github.com/geiqin/micro-kit/protobuf/common"
+	_ "github.com/geiqin/micro-kit/protobuf/common"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
 )
@@ -34,124 +34,6 @@ var _ context.Context
 var _ client.Option
 var _ server.Option
 
-// Api Endpoints for MyWxService service
-
-func NewMyWxServiceEndpoints() []*api.Endpoint {
-	return []*api.Endpoint{}
-}
-
-// Client API for MyWxService service
-
-type MyWxService interface {
-	//记录推荐人
-	Recommender(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*common.TokenResponse, error)
-	//记录分享痕迹
-	WriteShare(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*common.TokenResponse, error)
-	//记录追踪痕迹
-	WriteTrack(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error)
-	//拉取绑定手机号码
-	PullMobile(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error)
-}
-
-type myWxService struct {
-	c    client.Client
-	name string
-}
-
-func NewMyWxService(name string, c client.Client) MyWxService {
-	return &myWxService{
-		c:    c,
-		name: name,
-	}
-}
-
-func (c *myWxService) Recommender(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*common.TokenResponse, error) {
-	req := c.c.NewRequest(c.name, "MyWxService.Recommender", in)
-	out := new(common.TokenResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *myWxService) WriteShare(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*common.TokenResponse, error) {
-	req := c.c.NewRequest(c.name, "MyWxService.WriteShare", in)
-	out := new(common.TokenResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *myWxService) WriteTrack(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error) {
-	req := c.c.NewRequest(c.name, "MyWxService.WriteTrack", in)
-	out := new(WxResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *myWxService) PullMobile(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error) {
-	req := c.c.NewRequest(c.name, "MyWxService.PullMobile", in)
-	out := new(WxResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-// Server API for MyWxService service
-
-type MyWxServiceHandler interface {
-	//记录推荐人
-	Recommender(context.Context, *WxRequest, *common.TokenResponse) error
-	//记录分享痕迹
-	WriteShare(context.Context, *WxRequest, *common.TokenResponse) error
-	//记录追踪痕迹
-	WriteTrack(context.Context, *WxRequest, *WxResponse) error
-	//拉取绑定手机号码
-	PullMobile(context.Context, *WxRequest, *WxResponse) error
-}
-
-func RegisterMyWxServiceHandler(s server.Server, hdlr MyWxServiceHandler, opts ...server.HandlerOption) error {
-	type myWxService interface {
-		Recommender(ctx context.Context, in *WxRequest, out *common.TokenResponse) error
-		WriteShare(ctx context.Context, in *WxRequest, out *common.TokenResponse) error
-		WriteTrack(ctx context.Context, in *WxRequest, out *WxResponse) error
-		PullMobile(ctx context.Context, in *WxRequest, out *WxResponse) error
-	}
-	type MyWxService struct {
-		myWxService
-	}
-	h := &myWxServiceHandler{hdlr}
-	return s.Handle(s.NewHandler(&MyWxService{h}, opts...))
-}
-
-type myWxServiceHandler struct {
-	MyWxServiceHandler
-}
-
-func (h *myWxServiceHandler) Recommender(ctx context.Context, in *WxRequest, out *common.TokenResponse) error {
-	return h.MyWxServiceHandler.Recommender(ctx, in, out)
-}
-
-func (h *myWxServiceHandler) WriteShare(ctx context.Context, in *WxRequest, out *common.TokenResponse) error {
-	return h.MyWxServiceHandler.WriteShare(ctx, in, out)
-}
-
-func (h *myWxServiceHandler) WriteTrack(ctx context.Context, in *WxRequest, out *WxResponse) error {
-	return h.MyWxServiceHandler.WriteTrack(ctx, in, out)
-}
-
-func (h *myWxServiceHandler) PullMobile(ctx context.Context, in *WxRequest, out *WxResponse) error {
-	return h.MyWxServiceHandler.PullMobile(ctx, in, out)
-}
-
 // Api Endpoints for WxService service
 
 func NewWxServiceEndpoints() []*api.Endpoint {
@@ -161,14 +43,12 @@ func NewWxServiceEndpoints() []*api.Endpoint {
 // Client API for WxService service
 
 type WxService interface {
-	//生成二维码（公众号二维码和小程序码，支持批量生成）
-	MakeCode(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error)
-	//二维码查询
-	CodeSearch(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error)
-	//跟踪痕迹查询
-	TrackSearch(ctx context.Context, in *FanTrack, opts ...client.CallOption) (*FanTrackResponse, error)
-	//分享痕迹查询
-	ShareSearch(ctx context.Context, in *FanShare, opts ...client.CallOption) (*FanShareResponse, error)
+	//生成二维码（公众号二维码支持批量生成）
+	BaseQrcode(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error)
+	//微信小程序码
+	MiniQrcode(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error)
+	//拉取绑定手机号码
+	PullMobile(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error)
 }
 
 type wxService struct {
@@ -183,8 +63,8 @@ func NewWxService(name string, c client.Client) WxService {
 	}
 }
 
-func (c *wxService) MakeCode(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error) {
-	req := c.c.NewRequest(c.name, "WxService.MakeCode", in)
+func (c *wxService) BaseQrcode(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error) {
+	req := c.c.NewRequest(c.name, "WxService.BaseQrcode", in)
 	out := new(WxResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -193,8 +73,8 @@ func (c *wxService) MakeCode(ctx context.Context, in *WxRequest, opts ...client.
 	return out, nil
 }
 
-func (c *wxService) CodeSearch(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error) {
-	req := c.c.NewRequest(c.name, "WxService.CodeSearch", in)
+func (c *wxService) MiniQrcode(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error) {
+	req := c.c.NewRequest(c.name, "WxService.MiniQrcode", in)
 	out := new(WxResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -203,19 +83,9 @@ func (c *wxService) CodeSearch(ctx context.Context, in *WxRequest, opts ...clien
 	return out, nil
 }
 
-func (c *wxService) TrackSearch(ctx context.Context, in *FanTrack, opts ...client.CallOption) (*FanTrackResponse, error) {
-	req := c.c.NewRequest(c.name, "WxService.TrackSearch", in)
-	out := new(FanTrackResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *wxService) ShareSearch(ctx context.Context, in *FanShare, opts ...client.CallOption) (*FanShareResponse, error) {
-	req := c.c.NewRequest(c.name, "WxService.ShareSearch", in)
-	out := new(FanShareResponse)
+func (c *wxService) PullMobile(ctx context.Context, in *WxRequest, opts ...client.CallOption) (*WxResponse, error) {
+	req := c.c.NewRequest(c.name, "WxService.PullMobile", in)
+	out := new(WxResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -226,22 +96,19 @@ func (c *wxService) ShareSearch(ctx context.Context, in *FanShare, opts ...clien
 // Server API for WxService service
 
 type WxServiceHandler interface {
-	//生成二维码（公众号二维码和小程序码，支持批量生成）
-	MakeCode(context.Context, *WxRequest, *WxResponse) error
-	//二维码查询
-	CodeSearch(context.Context, *WxRequest, *WxResponse) error
-	//跟踪痕迹查询
-	TrackSearch(context.Context, *FanTrack, *FanTrackResponse) error
-	//分享痕迹查询
-	ShareSearch(context.Context, *FanShare, *FanShareResponse) error
+	//生成二维码（公众号二维码支持批量生成）
+	BaseQrcode(context.Context, *WxRequest, *WxResponse) error
+	//微信小程序码
+	MiniQrcode(context.Context, *WxRequest, *WxResponse) error
+	//拉取绑定手机号码
+	PullMobile(context.Context, *WxRequest, *WxResponse) error
 }
 
 func RegisterWxServiceHandler(s server.Server, hdlr WxServiceHandler, opts ...server.HandlerOption) error {
 	type wxService interface {
-		MakeCode(ctx context.Context, in *WxRequest, out *WxResponse) error
-		CodeSearch(ctx context.Context, in *WxRequest, out *WxResponse) error
-		TrackSearch(ctx context.Context, in *FanTrack, out *FanTrackResponse) error
-		ShareSearch(ctx context.Context, in *FanShare, out *FanShareResponse) error
+		BaseQrcode(ctx context.Context, in *WxRequest, out *WxResponse) error
+		MiniQrcode(ctx context.Context, in *WxRequest, out *WxResponse) error
+		PullMobile(ctx context.Context, in *WxRequest, out *WxResponse) error
 	}
 	type WxService struct {
 		wxService
@@ -254,18 +121,14 @@ type wxServiceHandler struct {
 	WxServiceHandler
 }
 
-func (h *wxServiceHandler) MakeCode(ctx context.Context, in *WxRequest, out *WxResponse) error {
-	return h.WxServiceHandler.MakeCode(ctx, in, out)
+func (h *wxServiceHandler) BaseQrcode(ctx context.Context, in *WxRequest, out *WxResponse) error {
+	return h.WxServiceHandler.BaseQrcode(ctx, in, out)
 }
 
-func (h *wxServiceHandler) CodeSearch(ctx context.Context, in *WxRequest, out *WxResponse) error {
-	return h.WxServiceHandler.CodeSearch(ctx, in, out)
+func (h *wxServiceHandler) MiniQrcode(ctx context.Context, in *WxRequest, out *WxResponse) error {
+	return h.WxServiceHandler.MiniQrcode(ctx, in, out)
 }
 
-func (h *wxServiceHandler) TrackSearch(ctx context.Context, in *FanTrack, out *FanTrackResponse) error {
-	return h.WxServiceHandler.TrackSearch(ctx, in, out)
-}
-
-func (h *wxServiceHandler) ShareSearch(ctx context.Context, in *FanShare, out *FanShareResponse) error {
-	return h.WxServiceHandler.ShareSearch(ctx, in, out)
+func (h *wxServiceHandler) PullMobile(ctx context.Context, in *WxRequest, out *WxResponse) error {
+	return h.WxServiceHandler.PullMobile(ctx, in, out)
 }

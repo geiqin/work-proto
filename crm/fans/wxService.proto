@@ -5,26 +5,14 @@ import "common/base.proto";
 import "fanShareService.proto";
 import "fanTrackService.proto";
 
-service MyWxService {
-    //记录推荐人
-    rpc Recommender (WxRequest) returns (common.TokenResponse) {}
-    //记录分享痕迹
-    rpc WriteShare (WxRequest) returns (common.TokenResponse) {}
-    //记录追踪痕迹
-    rpc WriteTrack (WxRequest) returns (WxResponse) {}
+service WxService {
+    //生成二维码（公众号二维码支持批量生成）
+    rpc BaseQrcode (WxRequest) returns (WxResponse) {}
+    //微信小程序码
+    rpc MiniQrcode (WxRequest) returns (WxResponse) {}
     //拉取绑定手机号码
     rpc PullMobile (WxRequest) returns (WxResponse) {}
-}
 
-service WxService {
-    //生成二维码（公众号二维码和小程序码，支持批量生成）
-    rpc MakeCode (WxRequest) returns (WxResponse) {}
-    //二维码查询
-    rpc CodeSearch (WxRequest) returns (WxResponse) {}
-    //跟踪痕迹查询
-    rpc TrackSearch (FanTrack) returns (FanTrackResponse) {}
-    //分享痕迹查询
-    rpc ShareSearch (FanShare) returns (FanShareResponse) {}
 }
 
 //微信请求数据
@@ -35,6 +23,7 @@ message WxRequest {
     string encryptedData =4;
     string iv =5;
     string scene =6;
+    int64 customer_id =7;
 }
 
 //微信数据
@@ -54,4 +43,5 @@ message WxResponse {
     repeated WxData items = 3;
     common.Error error = 4;
     common.Info info = 5;
+    map<string,string> params =6;
 }

@@ -46,6 +46,7 @@ type NavService interface {
 	Get(ctx context.Context, in *Nav, opts ...client.CallOption) (*NavResponse, error)
 	Create(ctx context.Context, in *Nav, opts ...client.CallOption) (*NavResponse, error)
 	Update(ctx context.Context, in *Nav, opts ...client.CallOption) (*NavResponse, error)
+	UpdateHidden(ctx context.Context, in *Nav, opts ...client.CallOption) (*NavResponse, error)
 	Delete(ctx context.Context, in *Nav, opts ...client.CallOption) (*NavResponse, error)
 	Search(ctx context.Context, in *NavRequest, opts ...client.CallOption) (*NavResponse, error)
 	List(ctx context.Context, in *NavRequest, opts ...client.CallOption) (*NavResponse, error)
@@ -86,6 +87,16 @@ func (c *navService) Create(ctx context.Context, in *Nav, opts ...client.CallOpt
 
 func (c *navService) Update(ctx context.Context, in *Nav, opts ...client.CallOption) (*NavResponse, error) {
 	req := c.c.NewRequest(c.name, "NavService.Update", in)
+	out := new(NavResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *navService) UpdateHidden(ctx context.Context, in *Nav, opts ...client.CallOption) (*NavResponse, error) {
+	req := c.c.NewRequest(c.name, "NavService.UpdateHidden", in)
 	out := new(NavResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -140,6 +151,7 @@ type NavServiceHandler interface {
 	Get(context.Context, *Nav, *NavResponse) error
 	Create(context.Context, *Nav, *NavResponse) error
 	Update(context.Context, *Nav, *NavResponse) error
+	UpdateHidden(context.Context, *Nav, *NavResponse) error
 	Delete(context.Context, *Nav, *NavResponse) error
 	Search(context.Context, *NavRequest, *NavResponse) error
 	List(context.Context, *NavRequest, *NavResponse) error
@@ -151,6 +163,7 @@ func RegisterNavServiceHandler(s server.Server, hdlr NavServiceHandler, opts ...
 		Get(ctx context.Context, in *Nav, out *NavResponse) error
 		Create(ctx context.Context, in *Nav, out *NavResponse) error
 		Update(ctx context.Context, in *Nav, out *NavResponse) error
+		UpdateHidden(ctx context.Context, in *Nav, out *NavResponse) error
 		Delete(ctx context.Context, in *Nav, out *NavResponse) error
 		Search(ctx context.Context, in *NavRequest, out *NavResponse) error
 		List(ctx context.Context, in *NavRequest, out *NavResponse) error
@@ -177,6 +190,10 @@ func (h *navServiceHandler) Create(ctx context.Context, in *Nav, out *NavRespons
 
 func (h *navServiceHandler) Update(ctx context.Context, in *Nav, out *NavResponse) error {
 	return h.NavServiceHandler.Update(ctx, in, out)
+}
+
+func (h *navServiceHandler) UpdateHidden(ctx context.Context, in *Nav, out *NavResponse) error {
+	return h.NavServiceHandler.UpdateHidden(ctx, in, out)
 }
 
 func (h *navServiceHandler) Delete(ctx context.Context, in *Nav, out *NavResponse) error {

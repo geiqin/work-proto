@@ -18,6 +18,7 @@ message AuthRequest {
     map<string,string> params =1;
     string mobile =2;
     string code =3;
+    int64 recommender_id = 16;
 }
 
 message WxMiniRequest{
@@ -27,4 +28,5 @@ message WxMiniRequest{
     string encryptedData =4;
     string iv =5;
     string scene =6;
+    int64 recommender_id = 16;
 }

@@ -7,6 +7,7 @@ service NavService {
     rpc Get (Nav) returns (NavResponse) {}
     rpc Create (Nav) returns (NavResponse) {}
     rpc Update (Nav) returns (NavResponse) {}
+    rpc UpdateHidden (Nav) returns (NavResponse) {}
     rpc Delete (Nav) returns (NavResponse) {}
     rpc Search (NavRequest) returns (NavResponse) {}
     rpc List (NavRequest) returns (NavResponse) {}
@@ -27,12 +28,13 @@ message Nav {
     string component  =11;
     bool nocache =12;
     bool hidden =13;
-    bool disabled =14;
-    string sorting =15;
-    string meta  =16;
-    string memo  =17;
-    string created_at =18;
-    string updated_at =19;
+    int32 sorting =14;
+    string memo  =15;
+    int32 status =16;
+    string created_at =17;
+    string updated_at =18;
+    // @inject_tag: gorm:"-"
+    map<string,string> metas  =19;
     repeated Nav children = 20;
 }
 
@@ -40,12 +42,16 @@ message Nav {
 message NavRequest {
     int32 paged = 1;
     int32 page_size = 2;
-    string sorting = 3;
+    int32 sorting = 3;
     //base params
-    int64 id = 4;
+    int32 id = 4;
     string name = 5;
-    int64 nav_id =6;
-    repeated int64 ids = 8;
+    string title = 6;
+    int32 status = 7;
+    int64 nav_id =8;
+    int32 type =9;
+    bool is_admin =10;
+    repeated int64 ids = 11;
 }
 
 //

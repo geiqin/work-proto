@@ -6,6 +6,7 @@ import "vipCardService.proto";
 import "tagService.proto";
 import "levelService.proto";
 import "addressService.proto";
+import "fanService.proto";
 
 service CustomerService {
     //手动添加用户
@@ -15,7 +16,7 @@ service CustomerService {
     //手动修改单位用户
     rpc UpdateCompany (Customer) returns (CustomerResponse) {}
     //从粉丝添加用户
-    rpc CreateByFan (Customer) returns (CustomerResponse) {}
+    rpc CreateByFan (Fan) returns (CustomerResponse) {}
     //修改客户
     rpc Update (Customer) returns (CustomerResponse) {}
     //删除客户

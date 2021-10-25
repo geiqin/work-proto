@@ -43,14 +43,19 @@ func NewCustomerServiceEndpoints() []*api.Endpoint {
 // Client API for CustomerService service
 
 type CustomerService interface {
-	//手动添加用户
+	//通过账号注册用户
+	Register(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error)
+	//从粉丝添加用户
+	RegisterByFan(ctx context.Context, in *Fan, opts ...client.CallOption) (*CustomerResponse, error)
+	//通过手机注册用户
+	RegisterByMobile(ctx context.Context, in *CustomerRequest, opts ...client.CallOption) (*CustomerResponse, error)
+	//通过邮箱注册用户
+	RegisterByEmail(ctx context.Context, in *CustomerRequest, opts ...client.CallOption) (*CustomerResponse, error)
 	Create(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error)
 	//手动添加单位用户
 	CreateCompany(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error)
 	//手动修改单位用户
 	UpdateCompany(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error)
-	//从粉丝添加用户
-	CreateByFan(ctx context.Context, in *Fan, opts ...client.CallOption) (*CustomerResponse, error)
 	//修改客户
 	Update(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error)
 	//删除客户
@@ -89,6 +94,46 @@ func NewCustomerService(name string, c client.Client) CustomerService {
 	}
 }
 
+func (c *customerService) Register(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error) {
+	req := c.c.NewRequest(c.name, "CustomerService.Register", in)
+	out := new(CustomerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *customerService) RegisterByFan(ctx context.Context, in *Fan, opts ...client.CallOption) (*CustomerResponse, error) {
+	req := c.c.NewRequest(c.name, "CustomerService.RegisterByFan", in)
+	out := new(CustomerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *customerService) RegisterByMobile(ctx context.Context, in *CustomerRequest, opts ...client.CallOption) (*CustomerResponse, error) {
+	req := c.c.NewRequest(c.name, "CustomerService.RegisterByMobile", in)
+	out := new(CustomerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *customerService) RegisterByEmail(ctx context.Context, in *CustomerRequest, opts ...client.CallOption) (*CustomerResponse, error) {
+	req := c.c.NewRequest(c.name, "CustomerService.RegisterByEmail", in)
+	out := new(CustomerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *customerService) Create(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error) {
 	req := c.c.NewRequest(c.name, "CustomerService.Create", in)
 	out := new(CustomerResponse)
@@ -111,16 +156,6 @@ func (c *customerService) CreateCompany(ctx context.Context, in *Customer, opts 
 
 func (c *customerService) UpdateCompany(ctx context.Context, in *Customer, opts ...client.CallOption) (*CustomerResponse, error) {
 	req := c.c.NewRequest(c.name, "CustomerService.UpdateCompany", in)
-	out := new(CustomerResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *customerService) CreateByFan(ctx context.Context, in *Fan, opts ...client.CallOption) (*CustomerResponse, error) {
-	req := c.c.NewRequest(c.name, "CustomerService.CreateByFan", in)
 	out := new(CustomerResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -252,14 +287,19 @@ func (c *customerService) GetByEmail(ctx context.Context, in *CustomerRequest, o
 // Server API for CustomerService service
 
 type CustomerServiceHandler interface {
-	//手动添加用户
+	//通过账号注册用户
+	Register(context.Context, *Customer, *CustomerResponse) error
+	//从粉丝添加用户
+	RegisterByFan(context.Context, *Fan, *CustomerResponse) error
+	//通过手机注册用户
+	RegisterByMobile(context.Context, *CustomerRequest, *CustomerResponse) error
+	//通过邮箱注册用户
+	RegisterByEmail(context.Context, *CustomerRequest, *CustomerResponse) error
 	Create(context.Context, *Customer, *CustomerResponse) error
 	//手动添加单位用户
 	CreateCompany(context.Context, *Customer, *CustomerResponse) error
 	//手动修改单位用户
 	UpdateCompany(context.Context, *Customer, *CustomerResponse) error
-	//从粉丝添加用户
-	CreateByFan(context.Context, *Fan, *CustomerResponse) error
 	//修改客户
 	Update(context.Context, *Customer, *CustomerResponse) error
 	//删除客户
@@ -288,10 +328,13 @@ type CustomerServiceHandler interface {
 
 func RegisterCustomerServiceHandler(s server.Server, hdlr CustomerServiceHandler, opts ...server.HandlerOption) error {
 	type customerService interface {
+		Register(ctx context.Context, in *Customer, out *CustomerResponse) error
+		RegisterByFan(ctx context.Context, in *Fan, out *CustomerResponse) error
+		RegisterByMobile(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error
+		RegisterByEmail(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error
 		Create(ctx context.Context, in *Customer, out *CustomerResponse) error
 		CreateCompany(ctx context.Context, in *Customer, out *CustomerResponse) error
 		UpdateCompany(ctx context.Context, in *Customer, out *CustomerResponse) error
-		CreateByFan(ctx context.Context, in *Fan, out *CustomerResponse) error
 		Update(ctx context.Context, in *Customer, out *CustomerResponse) error
 		Delete(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error
 		Lock(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error
@@ -316,6 +359,22 @@ type customerServiceHandler struct {
 	CustomerServiceHandler
 }
 
+func (h *customerServiceHandler) Register(ctx context.Context, in *Customer, out *CustomerResponse) error {
+	return h.CustomerServiceHandler.Register(ctx, in, out)
+}
+
+func (h *customerServiceHandler) RegisterByFan(ctx context.Context, in *Fan, out *CustomerResponse) error {
+	return h.CustomerServiceHandler.RegisterByFan(ctx, in, out)
+}
+
+func (h *customerServiceHandler) RegisterByMobile(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error {
+	return h.CustomerServiceHandler.RegisterByMobile(ctx, in, out)
+}
+
+func (h *customerServiceHandler) RegisterByEmail(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error {
+	return h.CustomerServiceHandler.RegisterByEmail(ctx, in, out)
+}
+
 func (h *customerServiceHandler) Create(ctx context.Context, in *Customer, out *CustomerResponse) error {
 	return h.CustomerServiceHandler.Create(ctx, in, out)
 }
@@ -326,10 +385,6 @@ func (h *customerServiceHandler) CreateCompany(ctx context.Context, in *Customer
 
 func (h *customerServiceHandler) UpdateCompany(ctx context.Context, in *Customer, out *CustomerResponse) error {
 	return h.CustomerServiceHandler.UpdateCompany(ctx, in, out)
-}
-
-func (h *customerServiceHandler) CreateByFan(ctx context.Context, in *Fan, out *CustomerResponse) error {
-	return h.CustomerServiceHandler.CreateByFan(ctx, in, out)
 }
 
 func (h *customerServiceHandler) Update(ctx context.Context, in *Customer, out *CustomerResponse) error {

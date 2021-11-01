@@ -51,10 +51,6 @@ type CustomerSecurityService interface {
 	CreatePwd(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
 	//修改密码
 	ModifyPwd(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
-	//绑定手机号
-	BindMobile(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
-	//绑定邮箱
-	BindEmail(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
 	//注销账户
 	Destroy(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error)
 }
@@ -111,26 +107,6 @@ func (c *customerSecurityService) ModifyPwd(ctx context.Context, in *CustomerSec
 	return out, nil
 }
 
-func (c *customerSecurityService) BindMobile(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error) {
-	req := c.c.NewRequest(c.name, "CustomerSecurityService.BindMobile", in)
-	out := new(CustomerSecurityResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *customerSecurityService) BindEmail(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error) {
-	req := c.c.NewRequest(c.name, "CustomerSecurityService.BindEmail", in)
-	out := new(CustomerSecurityResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *customerSecurityService) Destroy(ctx context.Context, in *CustomerSecurityRequest, opts ...client.CallOption) (*CustomerSecurityResponse, error) {
 	req := c.c.NewRequest(c.name, "CustomerSecurityService.Destroy", in)
 	out := new(CustomerSecurityResponse)
@@ -152,10 +128,6 @@ type CustomerSecurityServiceHandler interface {
 	CreatePwd(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
 	//修改密码
 	ModifyPwd(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
-	//绑定手机号
-	BindMobile(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
-	//绑定邮箱
-	BindEmail(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
 	//注销账户
 	Destroy(context.Context, *CustomerSecurityRequest, *CustomerSecurityResponse) error
 }
@@ -166,8 +138,6 @@ func RegisterCustomerSecurityServiceHandler(s server.Server, hdlr CustomerSecuri
 		HasPwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		CreatePwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		ModifyPwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
-		BindMobile(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
-		BindEmail(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 		Destroy(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error
 	}
 	type CustomerSecurityService struct {
@@ -195,14 +165,6 @@ func (h *customerSecurityServiceHandler) CreatePwd(ctx context.Context, in *Cust
 
 func (h *customerSecurityServiceHandler) ModifyPwd(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {
 	return h.CustomerSecurityServiceHandler.ModifyPwd(ctx, in, out)
-}
-
-func (h *customerSecurityServiceHandler) BindMobile(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {
-	return h.CustomerSecurityServiceHandler.BindMobile(ctx, in, out)
-}
-
-func (h *customerSecurityServiceHandler) BindEmail(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {
-	return h.CustomerSecurityServiceHandler.BindEmail(ctx, in, out)
 }
 
 func (h *customerSecurityServiceHandler) Destroy(ctx context.Context, in *CustomerSecurityRequest, out *CustomerSecurityResponse) error {

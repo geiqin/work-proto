@@ -14,10 +14,6 @@ service CustomerSecurityService {
     rpc CreatePwd (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
     //修改密码
     rpc ModifyPwd (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
-    //绑定手机号
-    rpc BindMobile (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
-    //绑定邮箱
-    rpc BindEmail (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
     //注销账户
     rpc Destroy (CustomerSecurityRequest) returns (CustomerSecurityResponse) {}
 }

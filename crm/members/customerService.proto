@@ -8,6 +8,7 @@ import "levelService.proto";
 import "addressService.proto";
 import "fanService.proto";
 
+
 service CustomerService {
     //通过账号注册用户
     rpc Register (Customer) returns (CustomerResponse) {}

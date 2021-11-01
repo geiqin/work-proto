@@ -65,7 +65,7 @@ type Customer struct {
 	DeletedAt      string  `protobuf:"bytes,32,opt,name=deleted_at,json=deletedAt,proto3" json:"deleted_at"`
 	Level          *Level  `protobuf:"bytes,33,opt,name=level,proto3" json:"level"`
 	// @inject_tag: gorm:"many2many:customer_tags;"
-	Tags      []*Tag     `protobuf:"bytes,34,rep,name=tags,proto3" json:"tags"`
+	Tags      []*Tag     `protobuf:"bytes,34,rep,name=tags,proto3"  gorm:"many2many:customer_tags;" json:"tags"`
 	VipCards  []*VipCard `protobuf:"bytes,35,rep,name=vip_cards,json=vipCards,proto3" json:"vip_cards"`
 	Addresses []*Address `protobuf:"bytes,36,rep,name=addresses,proto3" json:"addresses"`
 }

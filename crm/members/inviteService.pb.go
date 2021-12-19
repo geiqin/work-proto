@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.25.0
 // 	protoc        v3.14.0
-// source: inviteService.proto
+// source: InviteService.proto
 
 package services
 
@@ -31,19 +31,19 @@ type Invite struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id         int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
-	FanId      int64  `protobuf:"varint,2,opt,name=fan_id,json=fanId,proto3" json:"fan_id"`
-	CustomerId int64  `protobuf:"varint,3,opt,name=customer_id,json=customerId,proto3" json:"customer_id"`
-	LinkUrl    string `protobuf:"bytes,4,opt,name=link_url,json=linkUrl,proto3" json:"link_url"`
-	Qrcode     string `protobuf:"bytes,5,opt,name=qrcode,proto3" json:"qrcode"`
-	Size       int32  `protobuf:"varint,6,opt,name=size,proto3" json:"size"`
-	Type       string `protobuf:"bytes,7,opt,name=type,proto3" json:"type"`
+	Id         int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	FanId      int64  `protobuf:"varint,2,opt,name=fan_id,json=fanId,proto3" json:"fan_id,omitempty"`
+	CustomerId int64  `protobuf:"varint,3,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	LinkUrl    string `protobuf:"bytes,4,opt,name=link_url,json=linkUrl,proto3" json:"link_url,omitempty"`
+	Qrcode     string `protobuf:"bytes,5,opt,name=qrcode,proto3" json:"qrcode,omitempty"`
+	Size       int32  `protobuf:"varint,6,opt,name=size,proto3" json:"size,omitempty"`
+	Type       string `protobuf:"bytes,7,opt,name=type,proto3" json:"type,omitempty"`
 }
 
 func (x *Invite) Reset() {
 	*x = Invite{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_inviteService_proto_msgTypes[0]
+		mi := &file_InviteService_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -56,7 +56,7 @@ func (x *Invite) String() string {
 func (*Invite) ProtoMessage() {}
 
 func (x *Invite) ProtoReflect() protoreflect.Message {
-	mi := &file_inviteService_proto_msgTypes[0]
+	mi := &file_InviteService_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -69,7 +69,7 @@ func (x *Invite) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Invite.ProtoReflect.Descriptor instead.
 func (*Invite) Descriptor() ([]byte, []int) {
-	return file_inviteService_proto_rawDescGZIP(), []int{0}
+	return file_InviteService_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Invite) GetId() int64 {
@@ -126,22 +126,22 @@ type InviteRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Paged    int32  `protobuf:"varint,1,opt,name=paged,proto3" json:"paged"`
-	PageSize int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size"`
-	Sorting  string `protobuf:"bytes,3,opt,name=sorting,proto3" json:"sorting"`
+	Paged    int32  `protobuf:"varint,1,opt,name=paged,proto3" json:"paged,omitempty"`
+	PageSize int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Sorting  string `protobuf:"bytes,3,opt,name=sorting,proto3" json:"sorting,omitempty"`
 	//以下为自定义参数
-	Id         int64  `protobuf:"varint,4,opt,name=id,proto3" json:"id"`
-	FanId      int64  `protobuf:"varint,5,opt,name=fan_id,json=fanId,proto3" json:"fan_id"`
-	CustomerId int64  `protobuf:"varint,6,opt,name=customer_id,json=customerId,proto3" json:"customer_id"`
-	Code       string `protobuf:"bytes,7,opt,name=code,proto3" json:"code"`
-	Type       string `protobuf:"bytes,8,opt,name=type,proto3" json:"type"`
-	Mode       int32  `protobuf:"varint,9,opt,name=mode,proto3" json:"mode"`
+	Id         int64  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
+	FanId      int64  `protobuf:"varint,5,opt,name=fan_id,json=fanId,proto3" json:"fan_id,omitempty"`
+	CustomerId int64  `protobuf:"varint,6,opt,name=customer_id,json=customerId,proto3" json:"customer_id,omitempty"`
+	Code       string `protobuf:"bytes,7,opt,name=code,proto3" json:"code,omitempty"`
+	Type       string `protobuf:"bytes,8,opt,name=type,proto3" json:"type,omitempty"`
+	Mode       int32  `protobuf:"varint,9,opt,name=mode,proto3" json:"mode,omitempty"`
 }
 
 func (x *InviteRequest) Reset() {
 	*x = InviteRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_inviteService_proto_msgTypes[1]
+		mi := &file_InviteService_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -154,7 +154,7 @@ func (x *InviteRequest) String() string {
 func (*InviteRequest) ProtoMessage() {}
 
 func (x *InviteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_inviteService_proto_msgTypes[1]
+	mi := &file_InviteService_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -167,7 +167,7 @@ func (x *InviteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InviteRequest.ProtoReflect.Descriptor instead.
 func (*InviteRequest) Descriptor() ([]byte, []int) {
-	return file_inviteService_proto_rawDescGZIP(), []int{1}
+	return file_InviteService_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *InviteRequest) GetPaged() int32 {
@@ -238,18 +238,18 @@ type InviteResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Entity *Invite           `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity"`
-	Pager  *common.Pager     `protobuf:"bytes,2,opt,name=pager,proto3" json:"pager"`
-	Items  []*Invite         `protobuf:"bytes,3,rep,name=items,proto3" json:"items"`
-	Error  *common.Error     `protobuf:"bytes,4,opt,name=error,proto3" json:"error"`
-	Info   *common.Info      `protobuf:"bytes,5,opt,name=info,proto3" json:"info"`
-	Params map[string]string `protobuf:"bytes,6,rep,name=params,proto3" json:"params" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+	Entity *Invite           `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity,omitempty"`
+	Pager  *common.Pager     `protobuf:"bytes,2,opt,name=pager,proto3" json:"pager,omitempty"`
+	Items  []*Invite         `protobuf:"bytes,3,rep,name=items,proto3" json:"items,omitempty"`
+	Error  *common.Error     `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
+	Info   *common.Info      `protobuf:"bytes,5,opt,name=info,proto3" json:"info,omitempty"`
+	Params map[string]string `protobuf:"bytes,6,rep,name=params,proto3" json:"params,omitempty" protobuf_key:"bytes,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
 }
 
 func (x *InviteResponse) Reset() {
 	*x = InviteResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_inviteService_proto_msgTypes[2]
+		mi := &file_InviteService_proto_msgTypes[2]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -262,7 +262,7 @@ func (x *InviteResponse) String() string {
 func (*InviteResponse) ProtoMessage() {}
 
 func (x *InviteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_inviteService_proto_msgTypes[2]
+	mi := &file_InviteService_proto_msgTypes[2]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -275,7 +275,7 @@ func (x *InviteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use InviteResponse.ProtoReflect.Descriptor instead.
 func (*InviteResponse) Descriptor() ([]byte, []int) {
-	return file_inviteService_proto_rawDescGZIP(), []int{2}
+	return file_InviteService_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *InviteResponse) GetEntity() *Invite {
@@ -320,10 +320,10 @@ func (x *InviteResponse) GetParams() map[string]string {
 	return nil
 }
 
-var File_inviteService_proto protoreflect.FileDescriptor
+var File_InviteService_proto protoreflect.FileDescriptor
 
-var file_inviteService_proto_rawDesc = []byte{
-	0x0a, 0x13, 0x69, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
+var file_InviteService_proto_rawDesc = []byte{
+	0x0a, 0x13, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
 	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x12, 0x08, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x1a,
 	0x11, 0x63, 0x6f, 0x6d, 0x6d, 0x6f, 0x6e, 0x2f, 0x62, 0x61, 0x73, 0x65, 0x2e, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x22, 0xab, 0x01, 0x0a, 0x06, 0x49, 0x6e, 0x76, 0x69, 0x74, 0x65, 0x12, 0x0e, 0x0a,
@@ -390,19 +390,19 @@ var file_inviteService_proto_rawDesc = []byte{
 }
 
 var (
-	file_inviteService_proto_rawDescOnce sync.Once
-	file_inviteService_proto_rawDescData = file_inviteService_proto_rawDesc
+	file_InviteService_proto_rawDescOnce sync.Once
+	file_InviteService_proto_rawDescData = file_InviteService_proto_rawDesc
 )
 
-func file_inviteService_proto_rawDescGZIP() []byte {
-	file_inviteService_proto_rawDescOnce.Do(func() {
-		file_inviteService_proto_rawDescData = protoimpl.X.CompressGZIP(file_inviteService_proto_rawDescData)
+func file_InviteService_proto_rawDescGZIP() []byte {
+	file_InviteService_proto_rawDescOnce.Do(func() {
+		file_InviteService_proto_rawDescData = protoimpl.X.CompressGZIP(file_InviteService_proto_rawDescData)
 	})
-	return file_inviteService_proto_rawDescData
+	return file_InviteService_proto_rawDescData
 }
 
-var file_inviteService_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_inviteService_proto_goTypes = []interface{}{
+var file_InviteService_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_InviteService_proto_goTypes = []interface{}{
 	(*Invite)(nil),         // 0: services.Invite
 	(*InviteRequest)(nil),  // 1: services.InviteRequest
 	(*InviteResponse)(nil), // 2: services.InviteResponse
@@ -411,7 +411,7 @@ var file_inviteService_proto_goTypes = []interface{}{
 	(*common.Error)(nil),   // 5: common.Error
 	(*common.Info)(nil),    // 6: common.Info
 }
-var file_inviteService_proto_depIdxs = []int32{
+var file_InviteService_proto_depIdxs = []int32{
 	0, // 0: services.InviteResponse.entity:type_name -> services.Invite
 	4, // 1: services.InviteResponse.pager:type_name -> common.Pager
 	0, // 2: services.InviteResponse.items:type_name -> services.Invite
@@ -431,13 +431,13 @@ var file_inviteService_proto_depIdxs = []int32{
 	0, // [0:6] is the sub-list for field type_name
 }
 
-func init() { file_inviteService_proto_init() }
-func file_inviteService_proto_init() {
-	if File_inviteService_proto != nil {
+func init() { file_InviteService_proto_init() }
+func file_InviteService_proto_init() {
+	if File_InviteService_proto != nil {
 		return
 	}
 	if !protoimpl.UnsafeEnabled {
-		file_inviteService_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
+		file_InviteService_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*Invite); i {
 			case 0:
 				return &v.state
@@ -449,7 +449,7 @@ func file_inviteService_proto_init() {
 				return nil
 			}
 		}
-		file_inviteService_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
+		file_InviteService_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*InviteRequest); i {
 			case 0:
 				return &v.state
@@ -461,7 +461,7 @@ func file_inviteService_proto_init() {
 				return nil
 			}
 		}
-		file_inviteService_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+		file_InviteService_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*InviteResponse); i {
 			case 0:
 				return &v.state
@@ -478,18 +478,18 @@ func file_inviteService_proto_init() {
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: file_inviteService_proto_rawDesc,
+			RawDescriptor: file_InviteService_proto_rawDesc,
 			NumEnums:      0,
 			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_inviteService_proto_goTypes,
-		DependencyIndexes: file_inviteService_proto_depIdxs,
-		MessageInfos:      file_inviteService_proto_msgTypes,
+		GoTypes:           file_InviteService_proto_goTypes,
+		DependencyIndexes: file_InviteService_proto_depIdxs,
+		MessageInfos:      file_InviteService_proto_msgTypes,
 	}.Build()
-	File_inviteService_proto = out.File
-	file_inviteService_proto_rawDesc = nil
-	file_inviteService_proto_goTypes = nil
-	file_inviteService_proto_depIdxs = nil
+	File_InviteService_proto = out.File
+	file_InviteService_proto_rawDesc = nil
+	file_InviteService_proto_goTypes = nil
+	file_InviteService_proto_depIdxs = nil
 }

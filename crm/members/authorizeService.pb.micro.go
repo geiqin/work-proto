@@ -45,14 +45,14 @@ func NewAuthorizeServiceEndpoints() []*api.Endpoint {
 type AuthorizeService interface {
 	//获得当前客户
 	Info(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*CustomerResponse, error)
-	//绑定微信通过小程序
-	BindWxByMini(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error)
-	//绑定微信通过APP
-	BindWxByApp(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error)
-	//绑定手机号
+	//绑定手机
 	BindMobile(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error)
-	//绑定邮箱账号
+	//绑定邮箱
 	BindEmail(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error)
+	//微信小程序邀请码
+	BindWxByMini(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error)
+	//APP邀请二维码
+	BindWxByApp(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error)
 }
 
 type authorizeService struct {
@@ -70,26 +70,6 @@ func NewAuthorizeService(name string, c client.Client) AuthorizeService {
 func (c *authorizeService) Info(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*CustomerResponse, error) {
 	req := c.c.NewRequest(c.name, "AuthorizeService.Info", in)
 	out := new(CustomerResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authorizeService) BindWxByMini(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthorizeService.BindWxByMini", in)
-	out := new(AuthorizeResponse)
-	err := c.c.Call(ctx, req, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authorizeService) BindWxByApp(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error) {
-	req := c.c.NewRequest(c.name, "AuthorizeService.BindWxByApp", in)
-	out := new(AuthorizeResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -117,28 +97,48 @@ func (c *authorizeService) BindEmail(ctx context.Context, in *AuthorizeRequest, 
 	return out, nil
 }
 
+func (c *authorizeService) BindWxByMini(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthorizeService.BindWxByMini", in)
+	out := new(AuthorizeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authorizeService) BindWxByApp(ctx context.Context, in *AuthorizeRequest, opts ...client.CallOption) (*AuthorizeResponse, error) {
+	req := c.c.NewRequest(c.name, "AuthorizeService.BindWxByApp", in)
+	out := new(AuthorizeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for AuthorizeService service
 
 type AuthorizeServiceHandler interface {
 	//获得当前客户
 	Info(context.Context, *AuthorizeRequest, *CustomerResponse) error
-	//绑定微信通过小程序
-	BindWxByMini(context.Context, *AuthorizeRequest, *AuthorizeResponse) error
-	//绑定微信通过APP
-	BindWxByApp(context.Context, *AuthorizeRequest, *AuthorizeResponse) error
-	//绑定手机号
+	//绑定手机
 	BindMobile(context.Context, *AuthorizeRequest, *AuthorizeResponse) error
-	//绑定邮箱账号
+	//绑定邮箱
 	BindEmail(context.Context, *AuthorizeRequest, *AuthorizeResponse) error
+	//微信小程序邀请码
+	BindWxByMini(context.Context, *AuthorizeRequest, *AuthorizeResponse) error
+	//APP邀请二维码
+	BindWxByApp(context.Context, *AuthorizeRequest, *AuthorizeResponse) error
 }
 
 func RegisterAuthorizeServiceHandler(s server.Server, hdlr AuthorizeServiceHandler, opts ...server.HandlerOption) error {
 	type authorizeService interface {
 		Info(ctx context.Context, in *AuthorizeRequest, out *CustomerResponse) error
-		BindWxByMini(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error
-		BindWxByApp(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error
 		BindMobile(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error
 		BindEmail(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error
+		BindWxByMini(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error
+		BindWxByApp(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error
 	}
 	type AuthorizeService struct {
 		authorizeService
@@ -155,18 +155,18 @@ func (h *authorizeServiceHandler) Info(ctx context.Context, in *AuthorizeRequest
 	return h.AuthorizeServiceHandler.Info(ctx, in, out)
 }
 
-func (h *authorizeServiceHandler) BindWxByMini(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error {
-	return h.AuthorizeServiceHandler.BindWxByMini(ctx, in, out)
-}
-
-func (h *authorizeServiceHandler) BindWxByApp(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error {
-	return h.AuthorizeServiceHandler.BindWxByApp(ctx, in, out)
-}
-
 func (h *authorizeServiceHandler) BindMobile(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error {
 	return h.AuthorizeServiceHandler.BindMobile(ctx, in, out)
 }
 
 func (h *authorizeServiceHandler) BindEmail(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error {
 	return h.AuthorizeServiceHandler.BindEmail(ctx, in, out)
+}
+
+func (h *authorizeServiceHandler) BindWxByMini(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error {
+	return h.AuthorizeServiceHandler.BindWxByMini(ctx, in, out)
+}
+
+func (h *authorizeServiceHandler) BindWxByApp(ctx context.Context, in *AuthorizeRequest, out *AuthorizeResponse) error {
+	return h.AuthorizeServiceHandler.BindWxByApp(ctx, in, out)
 }

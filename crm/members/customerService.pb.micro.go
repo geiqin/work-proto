@@ -80,6 +80,8 @@ type CustomerService interface {
 	GetByMobile(ctx context.Context, in *CustomerRequest, opts ...client.CallOption) (*CustomerResponse, error)
 	//获取已绑定邮箱用户(SRV专用)
 	GetByEmail(ctx context.Context, in *CustomerRequest, opts ...client.CallOption) (*CustomerResponse, error)
+	//获取已绑定身份证(SRV专用)
+	GetByIdCard(ctx context.Context, in *CustomerRequest, opts ...client.CallOption) (*CustomerResponse, error)
 }
 
 type customerService struct {
@@ -284,6 +286,16 @@ func (c *customerService) GetByEmail(ctx context.Context, in *CustomerRequest, o
 	return out, nil
 }
 
+func (c *customerService) GetByIdCard(ctx context.Context, in *CustomerRequest, opts ...client.CallOption) (*CustomerResponse, error) {
+	req := c.c.NewRequest(c.name, "CustomerService.GetByIdCard", in)
+	out := new(CustomerResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for CustomerService service
 
 type CustomerServiceHandler interface {
@@ -324,6 +336,8 @@ type CustomerServiceHandler interface {
 	GetByMobile(context.Context, *CustomerRequest, *CustomerResponse) error
 	//获取已绑定邮箱用户(SRV专用)
 	GetByEmail(context.Context, *CustomerRequest, *CustomerResponse) error
+	//获取已绑定身份证(SRV专用)
+	GetByIdCard(context.Context, *CustomerRequest, *CustomerResponse) error
 }
 
 func RegisterCustomerServiceHandler(s server.Server, hdlr CustomerServiceHandler, opts ...server.HandlerOption) error {
@@ -347,6 +361,7 @@ func RegisterCustomerServiceHandler(s server.Server, hdlr CustomerServiceHandler
 		SetCards(ctx context.Context, in *Customer, out *CustomerResponse) error
 		GetByMobile(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error
 		GetByEmail(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error
+		GetByIdCard(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error
 	}
 	type CustomerService struct {
 		customerService
@@ -433,4 +448,8 @@ func (h *customerServiceHandler) GetByMobile(ctx context.Context, in *CustomerRe
 
 func (h *customerServiceHandler) GetByEmail(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error {
 	return h.CustomerServiceHandler.GetByEmail(ctx, in, out)
+}
+
+func (h *customerServiceHandler) GetByIdCard(ctx context.Context, in *CustomerRequest, out *CustomerResponse) error {
+	return h.CustomerServiceHandler.GetByIdCard(ctx, in, out)
 }

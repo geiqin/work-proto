@@ -49,6 +49,8 @@ service CustomerService {
     rpc GetByMobile (CustomerRequest) returns (CustomerResponse) {}
     //获取已绑定邮箱用户(SRV专用)
     rpc GetByEmail (CustomerRequest) returns (CustomerResponse) {}
+    //获取已绑定身份证(SRV专用)
+    rpc GetByIdCard (CustomerRequest) returns (CustomerResponse) {}
 }
 
 
@@ -122,7 +124,8 @@ message CustomerRequest {
     string avatar_url =25;
     string refer_url =26;
     string wx_open_id =27;
-    repeated int64 ids = 28;
+    string id_card =28;
+    repeated int64 ids = 29;
 }
 
 //

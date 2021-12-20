@@ -14,6 +14,7 @@ service PosterGalleryService {
 service FrontPosterGalleryService {
     rpc Search(PosterGalleryWhere) returns(PosterGalleryResponse) {};
     rpc List(PosterGalleryWhere) returns(PosterGalleryResponse) {};
+    rpc Make(PosterGalleryWhere) returns(PosterGalleryResponse) {};
 }
 
 message PosterGalleryWhere {

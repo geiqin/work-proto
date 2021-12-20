@@ -31,12 +31,12 @@ type PosterGalleryWhere struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Paged    int32  `protobuf:"varint,1,opt,name=paged,proto3" json:"paged"`
-	PageSize int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size"`
-	Sorting  string `protobuf:"bytes,3,opt,name=sorting,proto3" json:"sorting"`
-	Id       int64  `protobuf:"varint,4,opt,name=id,proto3" json:"id"`
+	Paged    int32  `protobuf:"varint,1,opt,name=paged,proto3" json:"paged,omitempty"`
+	PageSize int32  `protobuf:"varint,2,opt,name=page_size,json=pageSize,proto3" json:"page_size,omitempty"`
+	Sorting  string `protobuf:"bytes,3,opt,name=sorting,proto3" json:"sorting,omitempty"`
+	Id       int64  `protobuf:"varint,4,opt,name=id,proto3" json:"id,omitempty"`
 	// @inject_tag: gorm:"-"
-	Ids []int64 `protobuf:"varint,5,rep,packed,name=ids,proto3" json:"ids" gorm:"-"`
+	Ids []int64 `protobuf:"varint,5,rep,packed,name=ids,proto3" json:"ids,omitempty"`
 }
 
 func (x *PosterGalleryWhere) Reset() {
@@ -111,11 +111,11 @@ type PosterGallery struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id        int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id"`
-	MediaId   int64  `protobuf:"varint,2,opt,name=media_id,json=mediaId,proto3" json:"media_id"`
-	MediaUrl  string `protobuf:"bytes,3,opt,name=media_url,json=mediaUrl,proto3" json:"media_url"`
-	Sorting   int32  `protobuf:"varint,4,opt,name=sorting,proto3" json:"sorting"`
-	Defaulted bool   `protobuf:"varint,5,opt,name=defaulted,proto3" json:"defaulted"`
+	Id        int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	MediaId   int64  `protobuf:"varint,2,opt,name=media_id,json=mediaId,proto3" json:"media_id,omitempty"`
+	MediaUrl  string `protobuf:"bytes,3,opt,name=media_url,json=mediaUrl,proto3" json:"media_url,omitempty"`
+	Sorting   int32  `protobuf:"varint,4,opt,name=sorting,proto3" json:"sorting,omitempty"`
+	Defaulted bool   `protobuf:"varint,5,opt,name=defaulted,proto3" json:"defaulted,omitempty"`
 }
 
 func (x *PosterGallery) Reset() {
@@ -190,11 +190,11 @@ type PosterGalleryResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Entity *PosterGallery   `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity"`
-	Pager  *common.Pager    `protobuf:"bytes,2,opt,name=pager,proto3" json:"pager"`
-	Items  []*PosterGallery `protobuf:"bytes,3,rep,name=items,proto3" json:"items"`
-	Error  *common.Error    `protobuf:"bytes,4,opt,name=error,proto3" json:"error"`
-	Info   *common.Info     `protobuf:"bytes,5,opt,name=info,proto3" json:"info"`
+	Entity *PosterGallery   `protobuf:"bytes,1,opt,name=entity,proto3" json:"entity,omitempty"`
+	Pager  *common.Pager    `protobuf:"bytes,2,opt,name=pager,proto3" json:"pager,omitempty"`
+	Items  []*PosterGallery `protobuf:"bytes,3,rep,name=items,proto3" json:"items,omitempty"`
+	Error  *common.Error    `protobuf:"bytes,4,opt,name=error,proto3" json:"error,omitempty"`
+	Info   *common.Info     `protobuf:"bytes,5,opt,name=info,proto3" json:"info,omitempty"`
 }
 
 func (x *PosterGalleryResponse) Reset() {
@@ -327,7 +327,7 @@ var file_posterGalleryService_proto_rawDesc = []byte{
 	0x72, 0x47, 0x61, 0x6c, 0x6c, 0x65, 0x72, 0x79, 0x57, 0x68, 0x65, 0x72, 0x65, 0x1a, 0x1f, 0x2e,
 	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x6f, 0x73, 0x74, 0x65, 0x72, 0x47,
 	0x61, 0x6c, 0x6c, 0x65, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00,
-	0x32, 0xaf, 0x01, 0x0a, 0x19, 0x46, 0x72, 0x6f, 0x6e, 0x74, 0x50, 0x6f, 0x73, 0x74, 0x65, 0x72,
+	0x32, 0xf8, 0x01, 0x0a, 0x19, 0x46, 0x72, 0x6f, 0x6e, 0x74, 0x50, 0x6f, 0x73, 0x74, 0x65, 0x72,
 	0x47, 0x61, 0x6c, 0x6c, 0x65, 0x72, 0x79, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x49,
 	0x0a, 0x06, 0x53, 0x65, 0x61, 0x72, 0x63, 0x68, 0x12, 0x1c, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69,
 	0x63, 0x65, 0x73, 0x2e, 0x50, 0x6f, 0x73, 0x74, 0x65, 0x72, 0x47, 0x61, 0x6c, 0x6c, 0x65, 0x72,
@@ -338,8 +338,13 @@ var file_posterGalleryService_proto_rawDesc = []byte{
 	0x74, 0x65, 0x72, 0x47, 0x61, 0x6c, 0x6c, 0x65, 0x72, 0x79, 0x57, 0x68, 0x65, 0x72, 0x65, 0x1a,
 	0x1f, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x6f, 0x73, 0x74, 0x65,
 	0x72, 0x47, 0x61, 0x6c, 0x6c, 0x65, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x00, 0x42, 0x0c, 0x5a, 0x0a, 0x2e, 0x3b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73,
-	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x00, 0x12, 0x47, 0x0a, 0x04, 0x4d, 0x61, 0x6b, 0x65, 0x12, 0x1c, 0x2e, 0x73, 0x65, 0x72,
+	0x76, 0x69, 0x63, 0x65, 0x73, 0x2e, 0x50, 0x6f, 0x73, 0x74, 0x65, 0x72, 0x47, 0x61, 0x6c, 0x6c,
+	0x65, 0x72, 0x79, 0x57, 0x68, 0x65, 0x72, 0x65, 0x1a, 0x1f, 0x2e, 0x73, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x73, 0x2e, 0x50, 0x6f, 0x73, 0x74, 0x65, 0x72, 0x47, 0x61, 0x6c, 0x6c, 0x65, 0x72,
+	0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x0c, 0x5a, 0x0a, 0x2e,
+	0x3b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -376,15 +381,17 @@ var file_posterGalleryService_proto_depIdxs = []int32{
 	0,  // 9: services.PosterGalleryService.List:input_type -> services.PosterGalleryWhere
 	0,  // 10: services.FrontPosterGalleryService.Search:input_type -> services.PosterGalleryWhere
 	0,  // 11: services.FrontPosterGalleryService.List:input_type -> services.PosterGalleryWhere
-	2,  // 12: services.PosterGalleryService.Add:output_type -> services.PosterGalleryResponse
-	2,  // 13: services.PosterGalleryService.Delete:output_type -> services.PosterGalleryResponse
-	2,  // 14: services.PosterGalleryService.DeleteAll:output_type -> services.PosterGalleryResponse
-	2,  // 15: services.PosterGalleryService.Search:output_type -> services.PosterGalleryResponse
-	2,  // 16: services.PosterGalleryService.List:output_type -> services.PosterGalleryResponse
-	2,  // 17: services.FrontPosterGalleryService.Search:output_type -> services.PosterGalleryResponse
-	2,  // 18: services.FrontPosterGalleryService.List:output_type -> services.PosterGalleryResponse
-	12, // [12:19] is the sub-list for method output_type
-	5,  // [5:12] is the sub-list for method input_type
+	0,  // 12: services.FrontPosterGalleryService.Make:input_type -> services.PosterGalleryWhere
+	2,  // 13: services.PosterGalleryService.Add:output_type -> services.PosterGalleryResponse
+	2,  // 14: services.PosterGalleryService.Delete:output_type -> services.PosterGalleryResponse
+	2,  // 15: services.PosterGalleryService.DeleteAll:output_type -> services.PosterGalleryResponse
+	2,  // 16: services.PosterGalleryService.Search:output_type -> services.PosterGalleryResponse
+	2,  // 17: services.PosterGalleryService.List:output_type -> services.PosterGalleryResponse
+	2,  // 18: services.FrontPosterGalleryService.Search:output_type -> services.PosterGalleryResponse
+	2,  // 19: services.FrontPosterGalleryService.List:output_type -> services.PosterGalleryResponse
+	2,  // 20: services.FrontPosterGalleryService.Make:output_type -> services.PosterGalleryResponse
+	13, // [13:21] is the sub-list for method output_type
+	5,  // [5:13] is the sub-list for method input_type
 	5,  // [5:5] is the sub-list for extension type_name
 	5,  // [5:5] is the sub-list for extension extendee
 	0,  // [0:5] is the sub-list for field type_name

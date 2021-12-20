@@ -48,7 +48,7 @@ message GoodsInfo {
 	bool is_virtual =40;
 	bool is_right =41;
 	bool is_presale =42;
-	bool listed =43;
+	int32 status =43;
 	// @inject_tag: gorm:"-"
 	repeated GoodsCommission goods_commission = 44;
 }

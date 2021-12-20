@@ -46,11 +46,11 @@ type MyDistributorService interface {
 	//获取分销员信息
 	Get(ctx context.Context, in *Distributor, opts ...client.CallOption) (*DistributorResponse, error)
 	//检查用户是否是分销员
-	Exists(ctx context.Context, in *DistributorWhere, opts ...client.CallOption) (*DistributorResponse, error)
+	Exists(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 	//获取我的团队数量
-	TeamNum(ctx context.Context, in *DistributorTeamWhere, opts ...client.CallOption) (*DistributorTeamNumResponse, error)
+	TeamNum(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 	//查询我的团队
-	TeamSearch(ctx context.Context, in *DistributorTeamWhere, opts ...client.CallOption) (*DistributorTeamResponse, error)
+	TeamSearch(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 }
 
 type myDistributorService struct {
@@ -75,7 +75,7 @@ func (c *myDistributorService) Get(ctx context.Context, in *Distributor, opts ..
 	return out, nil
 }
 
-func (c *myDistributorService) Exists(ctx context.Context, in *DistributorWhere, opts ...client.CallOption) (*DistributorResponse, error) {
+func (c *myDistributorService) Exists(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
 	req := c.c.NewRequest(c.name, "MyDistributorService.Exists", in)
 	out := new(DistributorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -85,9 +85,9 @@ func (c *myDistributorService) Exists(ctx context.Context, in *DistributorWhere,
 	return out, nil
 }
 
-func (c *myDistributorService) TeamNum(ctx context.Context, in *DistributorTeamWhere, opts ...client.CallOption) (*DistributorTeamNumResponse, error) {
+func (c *myDistributorService) TeamNum(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
 	req := c.c.NewRequest(c.name, "MyDistributorService.TeamNum", in)
-	out := new(DistributorTeamNumResponse)
+	out := new(DistributorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -95,9 +95,9 @@ func (c *myDistributorService) TeamNum(ctx context.Context, in *DistributorTeamW
 	return out, nil
 }
 
-func (c *myDistributorService) TeamSearch(ctx context.Context, in *DistributorTeamWhere, opts ...client.CallOption) (*DistributorTeamResponse, error) {
+func (c *myDistributorService) TeamSearch(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
 	req := c.c.NewRequest(c.name, "MyDistributorService.TeamSearch", in)
-	out := new(DistributorTeamResponse)
+	out := new(DistributorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -111,19 +111,19 @@ type MyDistributorServiceHandler interface {
 	//获取分销员信息
 	Get(context.Context, *Distributor, *DistributorResponse) error
 	//检查用户是否是分销员
-	Exists(context.Context, *DistributorWhere, *DistributorResponse) error
+	Exists(context.Context, *DistributorRequest, *DistributorResponse) error
 	//获取我的团队数量
-	TeamNum(context.Context, *DistributorTeamWhere, *DistributorTeamNumResponse) error
+	TeamNum(context.Context, *DistributorRequest, *DistributorResponse) error
 	//查询我的团队
-	TeamSearch(context.Context, *DistributorTeamWhere, *DistributorTeamResponse) error
+	TeamSearch(context.Context, *DistributorRequest, *DistributorResponse) error
 }
 
 func RegisterMyDistributorServiceHandler(s server.Server, hdlr MyDistributorServiceHandler, opts ...server.HandlerOption) error {
 	type myDistributorService interface {
 		Get(ctx context.Context, in *Distributor, out *DistributorResponse) error
-		Exists(ctx context.Context, in *DistributorWhere, out *DistributorResponse) error
-		TeamNum(ctx context.Context, in *DistributorTeamWhere, out *DistributorTeamNumResponse) error
-		TeamSearch(ctx context.Context, in *DistributorTeamWhere, out *DistributorTeamResponse) error
+		Exists(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
+		TeamNum(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
+		TeamSearch(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
 	}
 	type MyDistributorService struct {
 		myDistributorService
@@ -140,15 +140,15 @@ func (h *myDistributorServiceHandler) Get(ctx context.Context, in *Distributor, 
 	return h.MyDistributorServiceHandler.Get(ctx, in, out)
 }
 
-func (h *myDistributorServiceHandler) Exists(ctx context.Context, in *DistributorWhere, out *DistributorResponse) error {
+func (h *myDistributorServiceHandler) Exists(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {
 	return h.MyDistributorServiceHandler.Exists(ctx, in, out)
 }
 
-func (h *myDistributorServiceHandler) TeamNum(ctx context.Context, in *DistributorTeamWhere, out *DistributorTeamNumResponse) error {
+func (h *myDistributorServiceHandler) TeamNum(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {
 	return h.MyDistributorServiceHandler.TeamNum(ctx, in, out)
 }
 
-func (h *myDistributorServiceHandler) TeamSearch(ctx context.Context, in *DistributorTeamWhere, out *DistributorTeamResponse) error {
+func (h *myDistributorServiceHandler) TeamSearch(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {
 	return h.MyDistributorServiceHandler.TeamSearch(ctx, in, out)
 }
 
@@ -164,17 +164,17 @@ type DistributorService interface {
 	//编辑销售员信息
 	Update(ctx context.Context, in *Distributor, opts ...client.CallOption) (*DistributorResponse, error)
 	//批量设置销售员等级
-	SetRank(ctx context.Context, in *Distributor, opts ...client.CallOption) (*DistributorResponse, error)
+	SetRank(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 	//清退销售员
-	Remove(ctx context.Context, in *DistributorWhere, opts ...client.CallOption) (*DistributorResponse, error)
+	Remove(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 	//获取销售员信息
 	Get(ctx context.Context, in *Distributor, opts ...client.CallOption) (*DistributorResponse, error)
 	//分页查询销售员列表
-	Search(ctx context.Context, in *DistributorWhere, opts ...client.CallOption) (*DistributorResponse, error)
+	Search(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 	//获取销售员的团队数量
-	TeamNum(ctx context.Context, in *DistributorTeamWhere, opts ...client.CallOption) (*DistributorTeamNumResponse, error)
+	TeamNum(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 	//查询销售员团队
-	TeamSearch(ctx context.Context, in *DistributorTeamWhere, opts ...client.CallOption) (*DistributorTeamResponse, error)
+	TeamSearch(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error)
 }
 
 type distributorService struct {
@@ -199,7 +199,7 @@ func (c *distributorService) Update(ctx context.Context, in *Distributor, opts .
 	return out, nil
 }
 
-func (c *distributorService) SetRank(ctx context.Context, in *Distributor, opts ...client.CallOption) (*DistributorResponse, error) {
+func (c *distributorService) SetRank(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
 	req := c.c.NewRequest(c.name, "DistributorService.SetRank", in)
 	out := new(DistributorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -209,7 +209,7 @@ func (c *distributorService) SetRank(ctx context.Context, in *Distributor, opts 
 	return out, nil
 }
 
-func (c *distributorService) Remove(ctx context.Context, in *DistributorWhere, opts ...client.CallOption) (*DistributorResponse, error) {
+func (c *distributorService) Remove(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
 	req := c.c.NewRequest(c.name, "DistributorService.Remove", in)
 	out := new(DistributorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -229,7 +229,7 @@ func (c *distributorService) Get(ctx context.Context, in *Distributor, opts ...c
 	return out, nil
 }
 
-func (c *distributorService) Search(ctx context.Context, in *DistributorWhere, opts ...client.CallOption) (*DistributorResponse, error) {
+func (c *distributorService) Search(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
 	req := c.c.NewRequest(c.name, "DistributorService.Search", in)
 	out := new(DistributorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
@@ -239,9 +239,9 @@ func (c *distributorService) Search(ctx context.Context, in *DistributorWhere, o
 	return out, nil
 }
 
-func (c *distributorService) TeamNum(ctx context.Context, in *DistributorTeamWhere, opts ...client.CallOption) (*DistributorTeamNumResponse, error) {
+func (c *distributorService) TeamNum(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
 	req := c.c.NewRequest(c.name, "DistributorService.TeamNum", in)
-	out := new(DistributorTeamNumResponse)
+	out := new(DistributorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -249,9 +249,9 @@ func (c *distributorService) TeamNum(ctx context.Context, in *DistributorTeamWhe
 	return out, nil
 }
 
-func (c *distributorService) TeamSearch(ctx context.Context, in *DistributorTeamWhere, opts ...client.CallOption) (*DistributorTeamResponse, error) {
+func (c *distributorService) TeamSearch(ctx context.Context, in *DistributorRequest, opts ...client.CallOption) (*DistributorResponse, error) {
 	req := c.c.NewRequest(c.name, "DistributorService.TeamSearch", in)
-	out := new(DistributorTeamResponse)
+	out := new(DistributorResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
 		return nil, err
@@ -265,28 +265,28 @@ type DistributorServiceHandler interface {
 	//编辑销售员信息
 	Update(context.Context, *Distributor, *DistributorResponse) error
 	//批量设置销售员等级
-	SetRank(context.Context, *Distributor, *DistributorResponse) error
+	SetRank(context.Context, *DistributorRequest, *DistributorResponse) error
 	//清退销售员
-	Remove(context.Context, *DistributorWhere, *DistributorResponse) error
+	Remove(context.Context, *DistributorRequest, *DistributorResponse) error
 	//获取销售员信息
 	Get(context.Context, *Distributor, *DistributorResponse) error
 	//分页查询销售员列表
-	Search(context.Context, *DistributorWhere, *DistributorResponse) error
+	Search(context.Context, *DistributorRequest, *DistributorResponse) error
 	//获取销售员的团队数量
-	TeamNum(context.Context, *DistributorTeamWhere, *DistributorTeamNumResponse) error
+	TeamNum(context.Context, *DistributorRequest, *DistributorResponse) error
 	//查询销售员团队
-	TeamSearch(context.Context, *DistributorTeamWhere, *DistributorTeamResponse) error
+	TeamSearch(context.Context, *DistributorRequest, *DistributorResponse) error
 }
 
 func RegisterDistributorServiceHandler(s server.Server, hdlr DistributorServiceHandler, opts ...server.HandlerOption) error {
 	type distributorService interface {
 		Update(ctx context.Context, in *Distributor, out *DistributorResponse) error
-		SetRank(ctx context.Context, in *Distributor, out *DistributorResponse) error
-		Remove(ctx context.Context, in *DistributorWhere, out *DistributorResponse) error
+		SetRank(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
+		Remove(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
 		Get(ctx context.Context, in *Distributor, out *DistributorResponse) error
-		Search(ctx context.Context, in *DistributorWhere, out *DistributorResponse) error
-		TeamNum(ctx context.Context, in *DistributorTeamWhere, out *DistributorTeamNumResponse) error
-		TeamSearch(ctx context.Context, in *DistributorTeamWhere, out *DistributorTeamResponse) error
+		Search(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
+		TeamNum(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
+		TeamSearch(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error
 	}
 	type DistributorService struct {
 		distributorService
@@ -303,11 +303,11 @@ func (h *distributorServiceHandler) Update(ctx context.Context, in *Distributor,
 	return h.DistributorServiceHandler.Update(ctx, in, out)
 }
 
-func (h *distributorServiceHandler) SetRank(ctx context.Context, in *Distributor, out *DistributorResponse) error {
+func (h *distributorServiceHandler) SetRank(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {
 	return h.DistributorServiceHandler.SetRank(ctx, in, out)
 }
 
-func (h *distributorServiceHandler) Remove(ctx context.Context, in *DistributorWhere, out *DistributorResponse) error {
+func (h *distributorServiceHandler) Remove(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {
 	return h.DistributorServiceHandler.Remove(ctx, in, out)
 }
 
@@ -315,14 +315,14 @@ func (h *distributorServiceHandler) Get(ctx context.Context, in *Distributor, ou
 	return h.DistributorServiceHandler.Get(ctx, in, out)
 }
 
-func (h *distributorServiceHandler) Search(ctx context.Context, in *DistributorWhere, out *DistributorResponse) error {
+func (h *distributorServiceHandler) Search(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {
 	return h.DistributorServiceHandler.Search(ctx, in, out)
 }
 
-func (h *distributorServiceHandler) TeamNum(ctx context.Context, in *DistributorTeamWhere, out *DistributorTeamNumResponse) error {
+func (h *distributorServiceHandler) TeamNum(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {
 	return h.DistributorServiceHandler.TeamNum(ctx, in, out)
 }
 
-func (h *distributorServiceHandler) TeamSearch(ctx context.Context, in *DistributorTeamWhere, out *DistributorTeamResponse) error {
+func (h *distributorServiceHandler) TeamSearch(ctx context.Context, in *DistributorRequest, out *DistributorResponse) error {
 	return h.DistributorServiceHandler.TeamSearch(ctx, in, out)
 }

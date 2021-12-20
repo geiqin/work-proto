@@ -172,6 +172,7 @@ func NewFrontPosterGalleryServiceEndpoints() []*api.Endpoint {
 type FrontPosterGalleryService interface {
 	Search(ctx context.Context, in *PosterGalleryWhere, opts ...client.CallOption) (*PosterGalleryResponse, error)
 	List(ctx context.Context, in *PosterGalleryWhere, opts ...client.CallOption) (*PosterGalleryResponse, error)
+	Make(ctx context.Context, in *PosterGalleryWhere, opts ...client.CallOption) (*PosterGalleryResponse, error)
 }
 
 type frontPosterGalleryService struct {
@@ -206,17 +207,29 @@ func (c *frontPosterGalleryService) List(ctx context.Context, in *PosterGalleryW
 	return out, nil
 }
 
+func (c *frontPosterGalleryService) Make(ctx context.Context, in *PosterGalleryWhere, opts ...client.CallOption) (*PosterGalleryResponse, error) {
+	req := c.c.NewRequest(c.name, "FrontPosterGalleryService.Make", in)
+	out := new(PosterGalleryResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for FrontPosterGalleryService service
 
 type FrontPosterGalleryServiceHandler interface {
 	Search(context.Context, *PosterGalleryWhere, *PosterGalleryResponse) error
 	List(context.Context, *PosterGalleryWhere, *PosterGalleryResponse) error
+	Make(context.Context, *PosterGalleryWhere, *PosterGalleryResponse) error
 }
 
 func RegisterFrontPosterGalleryServiceHandler(s server.Server, hdlr FrontPosterGalleryServiceHandler, opts ...server.HandlerOption) error {
 	type frontPosterGalleryService interface {
 		Search(ctx context.Context, in *PosterGalleryWhere, out *PosterGalleryResponse) error
 		List(ctx context.Context, in *PosterGalleryWhere, out *PosterGalleryResponse) error
+		Make(ctx context.Context, in *PosterGalleryWhere, out *PosterGalleryResponse) error
 	}
 	type FrontPosterGalleryService struct {
 		frontPosterGalleryService
@@ -235,4 +248,8 @@ func (h *frontPosterGalleryServiceHandler) Search(ctx context.Context, in *Poste
 
 func (h *frontPosterGalleryServiceHandler) List(ctx context.Context, in *PosterGalleryWhere, out *PosterGalleryResponse) error {
 	return h.FrontPosterGalleryServiceHandler.List(ctx, in, out)
+}
+
+func (h *frontPosterGalleryServiceHandler) Make(ctx context.Context, in *PosterGalleryWhere, out *PosterGalleryResponse) error {
+	return h.FrontPosterGalleryServiceHandler.Make(ctx, in, out)
 }

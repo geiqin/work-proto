@@ -25,15 +25,16 @@ message PositionOffer {
     string birthday =9;
     string mobile =10;
     int64 area_id =11;
-    string reason =12;
-    int32 start_type =13;
-    string start_date =14;
-    int32 work_period =15;
-    string memo =16;
-    int32 state =17;
-    string created_at =18;
-    string updated_at =19;
-    Position position =20;
+    bool is_self =12;
+    string reason =13;
+    int32 start_type =14;
+    string start_date =15;
+    int32 work_period =16;
+    string memo =17;
+    int32 state =18;
+    string created_at =19;
+    string updated_at =20;
+    Position position =21;
 }
 
 //查询参数
@@ -57,7 +58,7 @@ message PositionOfferRequest {
     int32 work_period =16;
     int32 state =17;
     string memo =18;
-    bool has_yourself =19;
+    bool is_self =19;
     repeated int64 seeker_ids =20;
 }
 

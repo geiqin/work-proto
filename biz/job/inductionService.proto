@@ -15,7 +15,16 @@ service InductionService {
     rpc Delete (Induction) returns (InductionResponse) {}
     rpc Get (Induction) returns (InductionResponse) {}
     rpc Search (InductionRequest) returns (InductionResponse) {}
-    rpc GetByCustomerId (common.Empty) returns (InductionResponse) {}
+    //合伙人查询就职人员信息（我的招聘）
+    rpc PartnerSearch (InductionRequest) returns (InductionResponse) {}
+    rpc GetByCustomerId (Induction) returns (InductionResponse) {}
+    //判断当前用户是否工作
+    rpc IsJob (Induction) returns (InductionResponse) {}
+    //获取就业企业列表
+    rpc EnterpriseList (InductionRequest) returns (EnterpriseResponse) {}
+    //初始化就职人员工资表
+    rpc Init (InductionRequest) returns (InductionResponse) {}
+    rpc List (InductionRequest) returns (InductionResponse) {}
 }
 
 message Induction {
@@ -39,11 +48,12 @@ message Induction {
   string source_position_title =18;
   string entry_date =19;
   string quit_date =20;
-  string demo =21;
+  string memo =21;
   int32 state =22;
   string created_at =23;
   string updated_at =24;
   Enterprise enterprise =25;
+  string avatar_url = 26;
 }
 
 //标签查询参数
@@ -65,10 +75,11 @@ message InductionRequest {
     int32 work_type =14;
     string entry_date =15;
     string quit_date =16;
-    string demo =17;
+    string memo =17;
     int32 state =18;
     int64 customer_id =19;
     int64 position_offer_id =20;
+    string dept_name =21;
 }
 
 //
@@ -79,3 +90,5 @@ message InductionResponse {
     common.Error error = 4;
     common.Info info =5;
 }
+
+

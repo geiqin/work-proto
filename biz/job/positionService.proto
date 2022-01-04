@@ -29,16 +29,17 @@ message Position {
     string intro =12;
     string salary_desc =13;
     string entry_desc =14;
-    int32 leave_type =15;
-    int32 work_limit =16;
-    int32 state =17;
-    string created_at =18;
-    string updated_at =19;
-    Enterprise enterprise =20;
+    int32 sorting =15;
+    int32 state =16;
+    string job_intro = 17;
+    string accommodation = 18;
+    string created_at =19;
+    string updated_at =20;
+    Enterprise enterprise =21;
     // @inject_tag: gorm:"many2many:position_tags;"
-    repeated Tag tags =21;
+    repeated Tag tags =22;
     // @inject_tag: gorm:"many2many:position_cats;"
-    repeated Cat cats =22;
+    repeated Cat cats =23;
 }
 
 //标签查询参数
@@ -51,14 +52,11 @@ message PositionRequest{
     int64 enterprise_id = 5;
     int32 work_type =6;
     float hour_price =7;
-    int32 leave_type =8;
-    int32 work_limit =9;
-    int32 state =10;
-    int32 cat_id =11;
-    string cat_slug =12;
-    int32 tag_id =13;
-    string tag_slug =14;
-
+    int32 state =8;
+    int32 cat_id =9;
+    string cat_slug =10;
+    int32 tag_id =11;
+    string tag_slug =12;
 }
 
 //

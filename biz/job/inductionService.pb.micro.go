@@ -4,7 +4,7 @@
 package services
 
 import (
-	common "github.com/geiqin/micro-kit/protobuf/common"
+	_ "github.com/geiqin/micro-kit/protobuf/common"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
 	math "math"
@@ -53,7 +53,16 @@ type InductionService interface {
 	Delete(ctx context.Context, in *Induction, opts ...client.CallOption) (*InductionResponse, error)
 	Get(ctx context.Context, in *Induction, opts ...client.CallOption) (*InductionResponse, error)
 	Search(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*InductionResponse, error)
-	GetByCustomerId(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*InductionResponse, error)
+	//合伙人查询就职人员信息（我的招聘）
+	PartnerSearch(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*InductionResponse, error)
+	GetByCustomerId(ctx context.Context, in *Induction, opts ...client.CallOption) (*InductionResponse, error)
+	//判断当前用户是否工作
+	IsJob(ctx context.Context, in *Induction, opts ...client.CallOption) (*InductionResponse, error)
+	//获取就业企业列表
+	EnterpriseList(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*EnterpriseResponse, error)
+	//初始化就职人员工资表
+	Init(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*InductionResponse, error)
+	List(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*InductionResponse, error)
 }
 
 type inductionService struct {
@@ -138,8 +147,58 @@ func (c *inductionService) Search(ctx context.Context, in *InductionRequest, opt
 	return out, nil
 }
 
-func (c *inductionService) GetByCustomerId(ctx context.Context, in *common.Empty, opts ...client.CallOption) (*InductionResponse, error) {
+func (c *inductionService) PartnerSearch(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*InductionResponse, error) {
+	req := c.c.NewRequest(c.name, "InductionService.PartnerSearch", in)
+	out := new(InductionResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *inductionService) GetByCustomerId(ctx context.Context, in *Induction, opts ...client.CallOption) (*InductionResponse, error) {
 	req := c.c.NewRequest(c.name, "InductionService.GetByCustomerId", in)
+	out := new(InductionResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *inductionService) IsJob(ctx context.Context, in *Induction, opts ...client.CallOption) (*InductionResponse, error) {
+	req := c.c.NewRequest(c.name, "InductionService.IsJob", in)
+	out := new(InductionResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *inductionService) EnterpriseList(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*EnterpriseResponse, error) {
+	req := c.c.NewRequest(c.name, "InductionService.EnterpriseList", in)
+	out := new(EnterpriseResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *inductionService) Init(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*InductionResponse, error) {
+	req := c.c.NewRequest(c.name, "InductionService.Init", in)
+	out := new(InductionResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *inductionService) List(ctx context.Context, in *InductionRequest, opts ...client.CallOption) (*InductionResponse, error) {
+	req := c.c.NewRequest(c.name, "InductionService.List", in)
 	out := new(InductionResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {
@@ -161,7 +220,16 @@ type InductionServiceHandler interface {
 	Delete(context.Context, *Induction, *InductionResponse) error
 	Get(context.Context, *Induction, *InductionResponse) error
 	Search(context.Context, *InductionRequest, *InductionResponse) error
-	GetByCustomerId(context.Context, *common.Empty, *InductionResponse) error
+	//合伙人查询就职人员信息（我的招聘）
+	PartnerSearch(context.Context, *InductionRequest, *InductionResponse) error
+	GetByCustomerId(context.Context, *Induction, *InductionResponse) error
+	//判断当前用户是否工作
+	IsJob(context.Context, *Induction, *InductionResponse) error
+	//获取就业企业列表
+	EnterpriseList(context.Context, *InductionRequest, *EnterpriseResponse) error
+	//初始化就职人员工资表
+	Init(context.Context, *InductionRequest, *InductionResponse) error
+	List(context.Context, *InductionRequest, *InductionResponse) error
 }
 
 func RegisterInductionServiceHandler(s server.Server, hdlr InductionServiceHandler, opts ...server.HandlerOption) error {
@@ -173,7 +241,12 @@ func RegisterInductionServiceHandler(s server.Server, hdlr InductionServiceHandl
 		Delete(ctx context.Context, in *Induction, out *InductionResponse) error
 		Get(ctx context.Context, in *Induction, out *InductionResponse) error
 		Search(ctx context.Context, in *InductionRequest, out *InductionResponse) error
-		GetByCustomerId(ctx context.Context, in *common.Empty, out *InductionResponse) error
+		PartnerSearch(ctx context.Context, in *InductionRequest, out *InductionResponse) error
+		GetByCustomerId(ctx context.Context, in *Induction, out *InductionResponse) error
+		IsJob(ctx context.Context, in *Induction, out *InductionResponse) error
+		EnterpriseList(ctx context.Context, in *InductionRequest, out *EnterpriseResponse) error
+		Init(ctx context.Context, in *InductionRequest, out *InductionResponse) error
+		List(ctx context.Context, in *InductionRequest, out *InductionResponse) error
 	}
 	type InductionService struct {
 		inductionService
@@ -214,6 +287,26 @@ func (h *inductionServiceHandler) Search(ctx context.Context, in *InductionReque
 	return h.InductionServiceHandler.Search(ctx, in, out)
 }
 
-func (h *inductionServiceHandler) GetByCustomerId(ctx context.Context, in *common.Empty, out *InductionResponse) error {
+func (h *inductionServiceHandler) PartnerSearch(ctx context.Context, in *InductionRequest, out *InductionResponse) error {
+	return h.InductionServiceHandler.PartnerSearch(ctx, in, out)
+}
+
+func (h *inductionServiceHandler) GetByCustomerId(ctx context.Context, in *Induction, out *InductionResponse) error {
 	return h.InductionServiceHandler.GetByCustomerId(ctx, in, out)
+}
+
+func (h *inductionServiceHandler) IsJob(ctx context.Context, in *Induction, out *InductionResponse) error {
+	return h.InductionServiceHandler.IsJob(ctx, in, out)
+}
+
+func (h *inductionServiceHandler) EnterpriseList(ctx context.Context, in *InductionRequest, out *EnterpriseResponse) error {
+	return h.InductionServiceHandler.EnterpriseList(ctx, in, out)
+}
+
+func (h *inductionServiceHandler) Init(ctx context.Context, in *InductionRequest, out *InductionResponse) error {
+	return h.InductionServiceHandler.Init(ctx, in, out)
+}
+
+func (h *inductionServiceHandler) List(ctx context.Context, in *InductionRequest, out *InductionResponse) error {
+	return h.InductionServiceHandler.List(ctx, in, out)
 }

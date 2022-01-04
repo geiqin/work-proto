@@ -21,11 +21,12 @@ message Seeker {
     int32 nation =6;
     string birthday =7;
     string mobile =8;
-    bool is_poor =9;
-    int64  area_id =10;
-    int32 state =11;
-    string created_at =12;
-    string updated_at =13;
+    int64  area_id =9;
+    bool is_poor =10;
+    bool is_self =11;
+    int32 state =12;
+    string created_at =13;
+    string updated_at =14;
 }
 
 //查询参数
